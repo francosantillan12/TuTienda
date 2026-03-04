@@ -1,5 +1,6 @@
 import CarritoModel from "../model/carrito.model.js";
 import TicketModel from "../model/ticket.model.js";
+import { enviarTicketPorMail } from "./mailing.service.js";
 
 class CartsService {
   async purchase(cid, user) {
@@ -62,6 +63,13 @@ class CartsService {
       purchaser: user.email,
       products: productosComprados
     });
+
+    // ✅ Enviar comprobante por mail
+    try {
+      await enviarTicketPorMail(ticket, user.email);
+    } catch (mailError) {
+      console.error("Error enviando ticket por mail:", mailError);
+    };
 
     // ✅ Actualizar carrito: solo quedan los productos sin stock
     carrito.products = productosSinStock;

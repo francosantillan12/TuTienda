@@ -2,16 +2,16 @@ import { authJwt } from "../middlewares/authJwt.js";
 import { soloAdmin } from "../middlewares/soloAdmin.js";
 
 import { Router } from "express";
-import mongoose from "mongoose";
-import UsuarioModel from "../model/usuario.model.js";
+import UsersService from "../services/users.service.js";
 
 const router = Router();
+const usersService = new UsersService();
 
 router.use(authJwt, soloAdmin);
 
 // GET /api/users → listar usuarios (sin password)
 router.get("/", function (req, res) {
-  UsuarioModel.find().select("-password")
+  usersService.getAll()
     .then(function (usuarios) {
       res.send({
         status: "ok",
@@ -20,7 +20,7 @@ router.get("/", function (req, res) {
     })
     .catch(function (error) {
       console.log("Error GET /api/users:", error);
-      res.status(500).send({ error: "Error del servidor" });
+      res.status(error.statusCode || 500).send({ error: error.message || "Error del servidor" });
     });
 });
 
@@ -28,11 +28,7 @@ router.get("/", function (req, res) {
 router.get("/:uid", function (req, res) {
   const { uid } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(uid)) {
-    return res.status(400).send({ error: "ID inválido" });
-  }
-
-  UsuarioModel.findById(uid).select("-password")
+  usersService.getById(uid)
     .then(function (usuario) {
       if (!usuario) {
         return res.status(404).send({ error: "Usuario no encontrado" });
@@ -45,7 +41,7 @@ router.get("/:uid", function (req, res) {
     })
     .catch(function (error) {
       console.log("Error GET /api/users/:uid:", error);
-      res.status(500).send({ error: "Error del servidor" });
+      res.status(error.statusCode || 500).send({ error: error.message || "Error del servidor" });
     });
 });
 
@@ -53,22 +49,7 @@ router.get("/:uid", function (req, res) {
 router.put("/:uid", function (req, res) {
   const { uid } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(uid)) {
-    return res.status(400).send({ error: "ID inválido" });
-  }
-
-  const { first_name, last_name, age, email, role, cart } = req.body;
-
-  const update = {};
-  if (first_name !== undefined) update.first_name = first_name;
-  if (last_name !== undefined) update.last_name = last_name;
-  if (age !== undefined) update.age = age;
-  if (email !== undefined) update.email = email;
-  if (role !== undefined) update.role = role;
-  if (cart !== undefined) update.cart = cart;
-
-  UsuarioModel.findByIdAndUpdate(uid, update, { new: true })
-    .select("-password")
+  usersService.update(uid, req.body)
     .then(function (usuarioActualizado) {
       if (!usuarioActualizado) {
         return res.status(404).send({ error: "Usuario no encontrado" });
@@ -81,7 +62,7 @@ router.put("/:uid", function (req, res) {
     })
     .catch(function (error) {
       console.log("Error PUT /api/users/:uid:", error);
-      res.status(500).send({ error: "Error del servidor" });
+      res.status(error.statusCode || 500).send({ error: error.message || "Error del servidor" });
     });
 });
 
@@ -89,11 +70,7 @@ router.put("/:uid", function (req, res) {
 router.delete("/:uid", function (req, res) {
   const { uid } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(uid)) {
-    return res.status(400).send({ error: "ID inválido" });
-  }
-
-  UsuarioModel.findByIdAndDelete(uid)
+  usersService.delete(uid)
     .then(function (usuarioEliminado) {
       if (!usuarioEliminado) {
         return res.status(404).send({ error: "Usuario no encontrado" });
@@ -106,9 +83,8 @@ router.delete("/:uid", function (req, res) {
     })
     .catch(function (error) {
       console.log("Error DELETE /api/users/:uid:", error);
-      res.status(500).send({ error: "Error del servidor" });
+      res.status(error.statusCode || 500).send({ error: error.message || "Error del servidor" });
     });
 });
 
 export default router;
-
