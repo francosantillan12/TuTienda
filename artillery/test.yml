@@ -1,0 +1,33 @@
+config:
+  target: 'http://localhost:8080'
+  phases:
+    - duration: 10
+      arrivalRate: 5
+  processor: './processor.cjs'
+
+scenarios:
+  - name: "sessions flow (register + login con capture)"
+    flow:
+      - function: 'generarUsuario'
+
+      - post:
+          url: '/api/sessions/register'
+          json:
+            first_name: '{{ nombre }}'
+            last_name: 'Test'
+            age: 30
+            email: '{{ email }}'
+            password: '{{ password }}'
+          capture:
+            - json: '$.usuario.first_name'
+              as: 'nombreCapturado'
+            - json: '$.usuario.last_name'
+              as: 'apellidoCapturado'
+            - json: '$.usuario.email'
+              as: 'emailCapturado'
+
+      - post:
+          url: '/api/sessions/login'
+          json:
+            email: '{{ emailCapturado }}'
+            password: '{{ password }}'

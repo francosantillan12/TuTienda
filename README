@@ -1,187 +1,123 @@
-🛒 Proyecto Backend II – Ecommerce (Continuación Backend I)
+# Backend API - Proyecto Final
 
-Este proyecto es la continuación del trabajo desarrollado en Backend I, donde se construyó la base del ecommerce con:
+Este proyecto es una API desarrollada en Node.js con Express como parte de la entrega final del curso Backend.
 
-CRUD de productos
+---
 
-CRUD de carritos
+## 🚀 Tecnologías utilizadas
 
-MongoDB + Mongoose
+- Node.js
+- Express
+- MongoDB (Mongoose)
+- Docker
+- Jest + Supertest (Testing)
 
-Paginación
+---
 
-Arquitectura con routers y controllers
+## 📦 Funcionalidades
 
-En esta etapa (Backend II) se mejora la arquitectura, seguridad y lógica de negocio, incorporando mecanismos de autenticación y autorización.
+- Gestión de productos
+- Gestión de carritos
+- Autenticación con JWT
+- Endpoint de adopciones (utilizado para testing funcional)
 
-🚀 Tecnologías utilizadas
+---
 
-Node.js
+## 🧪 Testing
 
-Express
+Se implementaron tests funcionales utilizando:
 
-MongoDB Atlas
+- Jest
+- Supertest
 
-Mongoose
+### Tests realizados
 
-Passport
+- GET /api/adoption → devuelve un array
+- POST /api/adoption → crea una adopción
+- POST /api/adoption → devuelve error si faltan datos
+- Flujo completo → crear adopción y luego obtenerla
 
-JWT (JSON Web Tokens)
+### Ejecutar tests
 
-Bcrypt
+```bash
+npm test
+```
 
-Nodemailer
+---
 
-Arquitectura en capas (Router → Controller → Repository → DAO)
+## 🐳 Docker
 
-🔐 Sistema de Autenticación
+### Construir imagen
 
-Se implementa:
+```bash
+docker build -t backend-distri .
+```
 
-Registro de usuarios con contraseña encriptada (bcrypt)
+### Ejecutar contenedor
 
-Login con JWT almacenado en cookie httpOnly
+```bash
+docker run --env-file .env -p 8080:8080 backend-distri
+```
 
-Estrategia current con Passport
+---
 
-Endpoint /api/sessions/current utilizando DTO para evitar enviar información sensible
+## 🌐 Endpoints de prueba
 
-DTO implementado
+### Test básico
 
-Se utiliza UserDTO para evitar enviar:
+GET /ping
 
-password
+### Adoption Router
 
-resetToken
+GET /api/adoption  
+POST /api/adoption
 
-resetTokenExp
+### Ejemplo de request POST
 
-🔄 Recuperación de contraseña
+```json
+{
+  "usuario": "fran",
+  "producto": "test docker"
+}
+```
 
-Se implementa:
+---
 
-Generación de token seguro
+## 📦 DockerHub
 
-Envío de email con enlace de recuperación
+Imagen disponible en:
 
-Token con expiración de 1 hora
+https://hub.docker.com/r/francosantillan/backend-distri
 
-Validación para evitar reutilizar la misma contraseña anterior
+---
 
-Endpoints:
+## ⚙️ Variables de entorno
 
-POST /api/sessions/forgot-password
-POST /api/sessions/reset-password/:token
-👥 Roles y Autorización
+El proyecto utiliza un archivo `.env` con las siguientes variables:
 
-Se implementa middleware de autorización basado en roles.
+- MONGO_URL
+- JWT_SECRET
 
-Reglas:
+---
 
-🔓 GET productos → público
+## ▶️ Cómo ejecutar el proyecto
 
-🔒 Crear / actualizar / eliminar productos → solo ADMIN
+### Modo desarrollo
 
-🔒 Agregar productos al carrito → solo USER
-
-🔒 Comprar carrito → solo USER y solo su propio carrito
-
-Middleware utilizado:
-
-passport.authenticate("current")
-
-authorizeRoles(["admin"])
-
-authorizeRoles(["user"])
-
-🧱 Arquitectura Profesional
-
-El proyecto aplica separación en capas:
-
-Router → define endpoints
-
-Controller → lógica de negocio
-
-Repository → intermediario
-
-DAO → acceso directo a base de datos
-
-DTO → transferencia segura de datos
-
-Esto permite:
-
-Escalabilidad
-
-Código más mantenible
-
-Separación clara de responsabilidades
-
-🎟 Sistema de Compra y Ticket
-
-Se implementa modelo Ticket con:
-
-code único
-
-purchase_datetime
-
-amount total
-
-purchaser (email del usuario)
-
-Endpoint:
-
-POST /api/carts/:cid/purchase
-
-Lógica implementada:
-
-Verificación de stock
-
-Compra completa o parcial
-
-Descuento de stock
-
-Generación de ticket
-
-Productos sin stock permanecen en el carrito
-
-⚙️ Variables de entorno
-
-El proyecto utiliza archivo .env (no incluido en el repositorio).
-
-Se provee .env.example como referencia.
-
-Variables necesarias:
-
-PORT
-MONGO_URL
-JWT_SECRET
-MAIL_USER
-MAIL_PASS
-🧪 Cómo probar el proyecto
-
-Clonar repositorio
-
-Instalar dependencias:
-
+```bash
 npm install
-
-Crear archivo .env usando .env.example
-
-Ejecutar:
-
 npm run dev
+```
 
-Servidor disponible en:
+### Modo producción (Docker)
 
-http://localhost:8080
-📌 Estado del proyecto
+```bash
+docker build -t backend-distri .
+docker run --env-file .env -p 8080:8080 backend-distri
+```
 
-✔ CRUD completo
-✔ Autenticación con JWT
-✔ Autorización por roles
-✔ Patrón Repository implementado
-✔ DTO para protección de datos
-✔ Recuperación de contraseña con expiración
-✔ Modelo Ticket y lógica de compra robusta
-✔ Manejo de compras parciales
+---
 
+## 👨‍💻 Autor
+
+Franco Santillán

@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import { inicializarPassport } from "./config/passport.config.js";
+import adoptionRouter from "./routes/adoption.router.js";
 
 // Rutas
 import viewsRouter from "./routes/views.router.js";
@@ -91,6 +92,7 @@ app.use("/api/products", productosRouter);
 app.use("/api/carts", carritosRouter);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/adoption", adoptionRouter);
 
 // Ruta de test
 app.get("/ping", function (req, res) {
