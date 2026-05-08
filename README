@@ -1,78 +1,186 @@
-# Backend API - Proyecto Final
+# Backend API - Proyecto Final BACKEND III
 
-Este proyecto es una API desarrollada en Node.js con Express como parte de la entrega final del curso Backend.
+## 📌 Descripción
 
----
+Este proyecto corresponde a la entrega final del curso Backend.
 
-## 🚀 Tecnologías utilizadas
+Al proyecto lo vengo armando desde backend I, por eso tiene ese nombre en el repositorio de github, pero corresponde
+a la entrega Final de BACKEND III
 
-- Node.js
-- Express
-- MongoDB (Mongoose)
-- Docker
-- Jest + Supertest (Testing)
+La aplicación consiste en una API desarrollada con Node.js y Express, utilizando MongoDB como base de datos y Docker para la containerización del proyecto.
 
----
-
-## 📦 Funcionalidades
+El sistema incluye:
 
 - Gestión de productos
 - Gestión de carritos
 - Autenticación con JWT
-- Endpoint de adopciones (utilizado para testing funcional)
+- Compra de productos
+- Generación de tickets
+- Envío de comprobantes por mail
+- Tests funcionales con Jest y Supertest
+- Dockerización completa del backend
 
 ---
 
-## 🧪 Testing
+# 🚀 Tecnologías utilizadas
+
+- Node.js
+- Express
+- MongoDB
+- Mongoose
+- JWT
+- Docker
+- Jest
+- Supertest
+- Handlebars
+
+---
+
+# 📁 Estructura principal del proyecto
+
+```txt
+proyecto-backend1/
+│
+├── src/
+│   ├── config/
+│   ├── controllers/
+│   ├── middlewares/
+│   ├── model/
+│   ├── routes/
+│   ├── services/
+│   ├── public/
+│   └── app.js
+│
+├── tests/
+│   └── adoption.test.js
+│
+├── views/
+├── Dockerfile
+├── .dockerignore
+├── .gitignore
+├── package.json
+├── README.md
+└── index.js
+```
+
+---
+
+# ⚙️ Variables de entorno
+
+El proyecto utiliza un archivo `.env`.
+
+Ejemplo:
+
+```env
+MONGO_URL=tu_url_de_mongodb
+JWT_SECRET=tu_secret
+MAIL_USER=tu_mail
+MAIL_PASS=tu_password
+```
+
+---
+
+# 🧪 Testing funcional
 
 Se implementaron tests funcionales utilizando:
 
 - Jest
 - Supertest
 
-### Tests realizados
+Los tests validan el funcionamiento del router:
 
-- GET /api/adoption → devuelve un array
-- POST /api/adoption → crea una adopción
-- POST /api/adoption → devuelve error si faltan datos
+```txt
+/api/adoption
+```
+
+---
+
+## ✅ Casos de prueba implementados
+
+- GET `/api/adoption` → devuelve un array
+- POST `/api/adoption` → crea una adopción
+- POST `/api/adoption` → devuelve error si faltan datos
 - Flujo completo → crear adopción y luego obtenerla
 
-### Ejecutar tests
+---
+
+# ▶️ Ejecutar los tests
 
 ```bash
 npm test
 ```
 
+Resultado esperado:
+
+```txt
+Test Suites: 1 passed, 1 total
+Tests:       4 passed, 4 total
+```
+
 ---
 
-## 🐳 Docker
+# 🐳 Dockerización
 
-### Construir imagen
+El proyecto fue dockerizado utilizando Docker.
+
+---
+
+## 📦 Construir imagen Docker
 
 ```bash
 docker build -t backend-distri .
 ```
 
-### Ejecutar contenedor
+---
+
+## ▶️ Ejecutar contenedor
 
 ```bash
 docker run --env-file .env -p 8080:8080 backend-distri
 ```
 
+Resultado esperado:
+
+```txt
+Servidor en http://localhost:8080
+✅ Conectado a MongoDB Atlas
+```
+
 ---
 
-## 🌐 Endpoints de prueba
+# 🌐 Endpoints principales
 
-### Test básico
+## Test básico
 
+```http
 GET /ping
+```
 
-### Adoption Router
+Respuesta:
 
-GET /api/adoption  
+```txt
+pong
+```
+
+---
+
+## Adoption Router
+
+### Obtener adopciones
+
+```http
+GET /api/adoption
+```
+
+---
+
+### Crear adopción
+
+```http
 POST /api/adoption
+```
 
-### Ejemplo de request POST
+Body ejemplo:
 
 ```json
 {
@@ -81,43 +189,64 @@ POST /api/adoption
 }
 ```
 
+Respuesta esperada:
+
+```json
+{
+  "id": 1777935893258,
+  "usuario": "fran",
+  "producto": "test docker"
+}
+```
+
 ---
 
-## 📦 DockerHub
+# 📬 Funcionalidades adicionales del proyecto
 
-Imagen disponible en:
+Además del router de adopciones implementado para testing, el proyecto incluye:
+
+- Sistema de autenticación con JWT
+- Gestión de productos
+- Gestión de carritos
+- Compra de productos
+- Validación de stock
+- Generación de tickets
+- Envío automático de comprobantes por mail
+
+---
+
+# 📦 DockerHub
+
+Imagen publicada en DockerHub:
+
+```txt
+francosantillan/backend-distri:latest
+```
+
+Link:
 
 https://hub.docker.com/r/francosantillan/backend-distri
 
 ---
 
-## ⚙️ Variables de entorno
+# 🔒 Aclaraciones técnicas
 
-El proyecto utiliza un archivo `.env` con las siguientes variables:
+Los tests implementados corresponden a tests funcionales utilizando Jest y Supertest, validando el comportamiento real de la API y su integración con la aplicación Express.
 
-- MONGO_URL
-- JWT_SECRET
+Como mejora futura, podrían implementarse mocks o bases de datos en memoria para aislar completamente las dependencias externas durante las pruebas.
 
----
+El Dockerfile utilizado permite construir y ejecutar correctamente la aplicación dentro de un contenedor Docker. Como mejora futura, podría optimizarse utilizando imágenes slim/alpine, multi-stage build y usuarios no-root.
 
-## ▶️ Cómo ejecutar el proyecto
-
-### Modo desarrollo
-
-```bash
-npm install
-npm run dev
-```
-
-### Modo producción (Docker)
-
-```bash
-docker build -t backend-distri .
-docker run --env-file .env -p 8080:8080 backend-distri
-```
+La documentación de la API se encuentra incluida en este README y en el documento entregable del proyecto.
 
 ---
 
-## 👨‍💻 Autor
+# 👨‍💻 Autor
 
 Franco Santillán
+
+---
+
+# ✅ Estado del proyecto
+
+Proyecto funcional, testeado y dockerizado correctamente.
