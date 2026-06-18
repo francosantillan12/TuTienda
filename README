@@ -1,11 +1,4 @@
-# Backend API - Proyecto Final BACKEND III
 
-## 📌 Descripción
-
-Este proyecto corresponde a la entrega final del curso Backend.
-
-Al proyecto lo vengo armando desde backend I, por eso tiene ese nombre en el repositorio de github, pero corresponde
-a la entrega Final de BACKEND III
 
 La aplicación consiste en una API desarrollada con Node.js y Express, utilizando MongoDB como base de datos y Docker para la containerización del proyecto.
 
