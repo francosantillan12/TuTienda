@@ -2,18 +2,23 @@
 
 <ul class="lista-productos">
   {{#each productos}}
-    <li class="producto-card" data-id="{{_id}}">
-      <h2 class="producto-titulo">{{titulo}}</h2>
-      <p class="producto-descripcion">{{descripcion}}</p>
+  <li class="producto-card" data-id="{{_id}}">
+    {{#if imagen}}
+    <img src="{{imagen}}" alt="{{titulo}}" class="producto-imagen">
+    {{/if}}
+    
+    <h2 class="producto-titulo">{{titulo}}</h2>
+    <p class="producto-descripcion">{{descripcion}}</p>
 
-      <p class="producto-detalle">
-        <span class="precio">💰 $ {{precio}}</span>
-        <span class="categoria">🥫 {{categoria}}</span>
-        <span class="stock">📦 Stock: {{stock}}</span>
-      </p>
+    <p class="producto-detalle">
+      <span class="precio">💰 $ {{precio}}</span>
+      <span class="categoria">🥫 {{categoria}}</span>
+      <span class="stock">📦 Stock: {{stock}}</span>
+      <span class="codigo">🏷️ Código: {{codigo}}</span>
+    </p>
 
-      <button class="boton-agregar">Agregar al carrito</button>
-    </li>
+    <button class="boton-agregar">Agregar al carrito</button>
+  </li>
   {{/each}}
 </ul>
 

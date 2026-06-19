@@ -47,7 +47,7 @@ socket.on("crearProducto", (datos) => {
     stock,
     descripcion,
     categoria,
-    imagen: "",
+    imagen: datos.imagen || "",
   };
 
   ProductoModel.create(nuevo)
@@ -84,7 +84,56 @@ socket.on("crearProducto", (datos) => {
         });
       });
   });
+
+  // Editar producto en Mongo
+socket.on("editarProducto", (datos) => {
+
+  const actualizacion = {};
+
+if (datos.titulo && datos.titulo.trim() !== "") {
+  actualizacion.titulo = datos.titulo.trim();
+}
+
+  if (!isNaN(datos.precio)) {
+    actualizacion.precio = datos.precio;
+  }
+
+  if (!isNaN(datos.stock)) {
+    actualizacion.stock = datos.stock;
+  }
+
+  ProductoModel.findByIdAndUpdate(
+    datos.id,
+    actualizacion,
+    { new: true }
+  )
+    .then((producto) => {
+
+      if (!producto) {
+        socket.emit("errorOperacion", {
+          mensaje: "Producto no encontrado"
+        });
+        return null;
+      }
+
+      return ProductoModel.find().lean();
+    })
+    .then((lista) => {
+      if (lista) {
+        io.emit("productosActuales", lista);
+      }
+    })
+    .catch((err) => {
+      console.error("WS editarProducto error:", err);
+
+      socket.emit("errorOperacion", {
+        mensaje: "No se pudo actualizar el producto"
+      });
+    });
+
 });
+});
+
 
 
 const PUERTO = 8080;
