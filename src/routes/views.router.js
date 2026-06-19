@@ -84,11 +84,17 @@ router.get("/carts/:cid", async (req, res) => {
 
     const carritoPlano = carrito.toObject();
 
+    const total = carrito.products.reduce((acumulador, item) => {
+      return acumulador + (item.product.precio * item.quantity);
+    }, 0);
+
     res.render("carts", {
       layout: "main",
-      tituloPagina: "Carrito",
-      carrito: carritoPlano
+      tituloPagina: "Caja",
+      carrito: carritoPlano,
+      total: total
     });
+
   } catch (error) {
     console.error("Error al renderizar /carts/:cid:", error);
     res.status(500).send("Error al cargar el carrito");
@@ -139,6 +145,7 @@ router.get("/reset-password/:token", function (req, res) {
     token: req.params.token
   });
 });
+
 
 
 export default router;

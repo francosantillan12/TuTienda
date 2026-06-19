@@ -1,13 +1,16 @@
 <h1>{{tituloPagina}}</h1>
 
-<h2>Carrito</h2>
-<p class="carrito-id">ID del carrito: {{carrito._id}}</p>
+<div class="caja-resumen">
+  <h3>Total actual: ${{total}}</h3>
+</div>
+
+<!-- <p class="carrito-id">ID del carrito: {{carrito._id}}</p> -->
 
 <!-- Botón para vaciar carrito -->
-<button id="btn-vaciar" class="btn-vaciar">Vaciar carrito</button>
+<button id="btn-vaciar" class="btn-vaciar">Cancelar venta</button>
 
 <!-- Botón para finalizar compra -->
-<button id="btn-comprar" class="btn-comprar">Finalizar compra</button>
+<button id="btn-comprar" class="btn-comprar">Cobrar</button>
 
 {{#if carrito.products.length}}
   <ul class="carrito-lista">
@@ -16,29 +19,33 @@
         <li class="carrito-card">
           <h3 class="producto-titulo">{{this.product.titulo}}</h3>
 
-          <p class="producto-descripcion">
-            {{this.product.descripcion}}
-          </p>
+        <p class="producto-detalle">
+  <span class="precio">
+    💰 Precio unitario: ${{this.product.precio}}
+  </span>
 
-          <p class="producto-detalle">
-            <span class="precio">💰 $ {{this.product.precio}}</span>
-            <span class="categoria">🥫 {{this.product.categoria}}</span>
-            <span class="stock">📦 Stock: {{this.product.stock}}</span>
-            <span class="cantidad">🛒 Cantidad en carrito: {{this.quantity}}</span>
-          </p>
+  <span class="cantidad">
+    🛒 Cantidad: {{this.quantity}}
+  </span>
+
+  <span class="subtotal">
+    💵 Subtotal:
+    ${{this.product.precio}} x {{this.quantity}}
+  </span>
+</p>
 
           <button
             class="btn-eliminar"
             data-pid="{{this.product._id}}"
           >
-            Eliminar del carrito
+            Quitar
           </button>
         </li>
       {{/if}}
     {{/each}}
   </ul>
 {{else}}
-  <p>El carrito está vacío.</p>
+  <p>No hay productos cargados en caja.</p>
 {{/if}}
 
 <script>
@@ -58,7 +65,7 @@
       })
         .then(res => res.json())
         .then(() => {
-          alert("Producto eliminado del carrito");
+          alert("Producto quitado de la caja");
           location.reload();
         })
         .catch(error => {
@@ -82,7 +89,7 @@
       })
         .then(res => res.json())
         .then(() => {
-          alert("Carrito vaciado");
+          alert("Venta cancelada");
           location.reload();
         })
         .catch(error => {

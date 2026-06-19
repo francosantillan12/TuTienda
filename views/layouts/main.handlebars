@@ -13,6 +13,7 @@
       <a href="/">Inicio</a>
       <a href="/products">Productos</a>
       <a href="/realtimeproducts">Administración</a>
+    
 
       {{!-- Links según sesión --}}
       {{#if usuario}}
@@ -25,11 +26,11 @@
       {{!-- Link del carrito --}}
       {{#if usuario}}
         <a href="/carts/{{usuario.cart}}" class="cart-icon" id="link-carrito">
-          🛒 Carrito
+           💵 Caja
         </a>
       {{else}}
         <a href="/login" class="cart-icon" id="link-carrito">
-          🛒 Carrito
+            💵 Caja
         </a>
       {{/if}}
     </nav>
@@ -64,9 +65,9 @@
             return acc + (item.quantity || 0);
           }, 0);
 
-          link.textContent = total > 0
-            ? `🛒 Carrito (${total})`
-            : "🛒 Carrito";
+         link.textContent = total > 0
+          ? `💵 Caja (${total})`
+          : "💵 Caja";
         })
         .catch(function (error) {
           console.log("No se pudo obtener el carrito:", error);
