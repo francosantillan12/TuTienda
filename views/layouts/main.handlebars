@@ -4,36 +4,38 @@
   <meta charset="utf-8" />
   <title>{{tituloPagina}}</title>
   <link rel="stylesheet" href="/public/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
   <header>
     <div class="logo">Tu Tienda</div>
+<nav>
 
-    <nav>
-      <a href="/">Inicio</a>
-      <a href="/products">Productos</a>
-      <a href="/realtimeproducts">Administración</a>
-    
+  {{#if usuario}}
 
-      {{!-- Links según sesión --}}
-      {{#if usuario}}
-        <a href="#" id="btn-logout">Cerrar sesión</a>
-      {{else}}
-        <a href="/login">Iniciar sesión</a>
-        <a href="/register">Registrarse</a>
-      {{/if}}
+    <a href="/">Inicio</a>
 
-      {{!-- Link del carrito --}}
-      {{#if usuario}}
-        <a href="/carts/{{usuario.cart}}" class="cart-icon" id="link-carrito">
-           💵 Caja
-        </a>
-      {{else}}
-        <a href="/login" class="cart-icon" id="link-carrito">
-            💵 Caja
-        </a>
-      {{/if}}
-    </nav>
+    <a href="/products">Catálogo</a>
+
+  <a href="/realtimeproducts">Administración</a>
+
+    <a href="/carts/{{usuario.cart}}" class="cart-icon" id="link-carrito">
+      💵 Caja
+    </a>
+
+    <a href="#" id="btn-logout">
+      Cerrar sesión
+    </a>
+
+  {{else}}
+
+    <a href="/login">Iniciar sesión</a>
+
+    <a href="/register">Registrarse</a>
+
+  {{/if}}
+
+</nav>
   </header>
 
   <main>

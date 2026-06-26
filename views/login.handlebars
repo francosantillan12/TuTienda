@@ -49,7 +49,7 @@
         })
         .then(function (info) {
           mensaje.textContent = "Login correcto ✅";
-          window.location.href = "/products";
+          window.location.href = "/";
         })
         .catch(function (error) {
           mensaje.textContent = error && error.message ? error.message : "Error al loguear";

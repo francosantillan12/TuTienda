@@ -3,80 +3,68 @@ import ProductoModel from "../model/producto.model.js";
 import CarritoModel from "../model/carrito.model.js";
 import TicketModel from "../model/ticket.model.js";
 
-
 const router = Router();
+
+/* =========================================================
+   INICIO
+========================================================= */
 
 router.get("/", function (req, res) {
   res.render("home", {
     layout: "main",
-    tituloPagina: "Inicio",
-    mensaje: "¡Funciona Handlebars!",
+    tituloPagina: "Inicio"
   });
 });
+
+/* =========================================================
+   ADMINISTRACIÓN
+========================================================= */
 
 router.get("/realtimeproducts", function (req, res) {
   res.render("realtimeproducts", {
-    tituloPagina: "Productos en tiempo real",
+    layout: "main",
+    tituloPagina: "Administración de productos"
   });
 });
 
+/* =========================================================
+   CATÁLOGO
+========================================================= */
 
-// Vista de productos con paginación
 router.get("/products", async (req, res) => {
   try {
-    const { page, limit } = req.query;
 
-    const limitNumber = parseInt(limit) || 2; // mostramos 2 productos por página (después lo puedo cambiar)
-    const pageNumber = parseInt(page) || 1;
+    const productosDB = await ProductoModel.find({});
+    const categorias = (await ProductoModel.distinct("categoria")).sort();
 
-    const filtro = {}; 
-
-    const totalDocs = await ProductoModel.countDocuments(filtro);
-    const totalPages = Math.ceil(totalDocs / limitNumber) || 1;
-    const skip = (pageNumber - 1) * limitNumber;
-
-    const productosDB = await ProductoModel.find(filtro)
-      .skip(skip)
-      .limit(limitNumber);
-
-    const productos = productosDB.map((p) => p.toObject());
-
-    const hasPrevPage = pageNumber > 1;
-    const hasNextPage = pageNumber < totalPages;
-
-    const prevPage = hasPrevPage ? pageNumber - 1 : null;
-    const nextPage = hasNextPage ? pageNumber + 1 : null;
-
-    const prevLink = hasPrevPage
-      ? `/products?page=${prevPage}&limit=${limitNumber}`
-      : null;
-
-    const nextLink = hasNextPage
-      ? `/products?page=${nextPage}&limit=${limitNumber}`
-      : null;
+    const productos = productosDB.map((producto) =>
+      producto.toObject()
+    );
 
     res.render("products", {
       layout: "main",
-      tituloPagina: "Listado de productos",
+      tituloPagina: "Catálogo",
       productos,
-      page: pageNumber,
-      totalPages,
-      hasPrevPage,
-      hasNextPage,
-      prevLink,
-      nextLink
+      categorias
     });
+
   } catch (error) {
     console.error("Error al renderizar /products:", error);
-    res.status(500).send("Error al cargar la vista de productos");
+    res.status(500).send("Error al cargar el catálogo");
   }
 });
 
+/* =========================================================
+   CAJA
+========================================================= */
+
 router.get("/carts/:cid", async (req, res) => {
   try {
+
     const { cid } = req.params;
 
-    const carrito = await CarritoModel.findById(cid).populate("products.product");
+    const carrito = await CarritoModel.findById(cid)
+      .populate("products.product");
 
     if (!carrito) {
       return res.status(404).send("Carrito no encontrado");
@@ -84,7 +72,7 @@ router.get("/carts/:cid", async (req, res) => {
 
     const carritoPlano = carrito.toObject();
 
-    const total = carrito.products.reduce((acumulador, item) => {
+    const total = carrito.products.reduce(function (acumulador, item) {
       return acumulador + (item.product.precio * item.quantity);
     }, 0);
 
@@ -92,7 +80,7 @@ router.get("/carts/:cid", async (req, res) => {
       layout: "main",
       tituloPagina: "Caja",
       carrito: carritoPlano,
-      total: total
+      total
     });
 
   } catch (error) {
@@ -101,8 +89,13 @@ router.get("/carts/:cid", async (req, res) => {
   }
 });
 
+/* =========================================================
+   TICKET
+========================================================= */
+
 router.get("/ticket/:tid", async (req, res) => {
   try {
+
     const { tid } = req.params;
 
     const ticket = await TicketModel.findById(tid);
@@ -123,6 +116,9 @@ router.get("/ticket/:tid", async (req, res) => {
   }
 });
 
+/* =========================================================
+   SESIONES
+========================================================= */
 
 router.get("/login", function (req, res) {
   res.render("login", {
@@ -145,7 +141,5 @@ router.get("/reset-password/:token", function (req, res) {
     token: req.params.token
   });
 });
-
-
 
 export default router;

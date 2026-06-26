@@ -1,76 +1,215 @@
-<h1>{{tituloPagina}}</h1>
+<h1>📦 Catálogo</h1>
 
-<ul class="lista-productos">
-  {{#each productos}}
-  <li class="producto-card" data-id="{{_id}}">
-    {{#if imagen}}
-    <img src="{{imagen}}" alt="{{titulo}}" class="producto-imagen">
-    {{/if}}
-    
-    <h2 class="producto-titulo">{{titulo}}</h2>
-    <p class="producto-descripcion">{{descripcion}}</p>
+<div class="buscador-productos">
 
-    <p class="producto-detalle">
-      <span class="precio">💰 $ {{precio}}</span>
-      <span class="categoria">🥫 {{categoria}}</span>
-      <span class="stock">📦 Stock: {{stock}}</span>
-      <span class="codigo">🏷️ Código: {{codigo}}</span>
-    </p>
+  <input
+    type="text"
+    id="buscador-productos"
+    placeholder="🔍 Buscar producto..."
+  >
 
-    <button class="boton-agregar">Agregar al carrito</button>
-  </li>
-  {{/each}}
-</ul>
+  <select id="filtro-categoria">
 
-<div class="paginacion">
-  <p>Página {{page}} de {{totalPages}}</p>
+    <option value="">Todas las categorías</option>
 
-  <div class="paginacion-links">
-    {{#if hasPrevPage}}
-      <a href="{{prevLink}}">⬅ Anterior</a>
-    {{/if}}
+    {{#each categorias}}
 
-    {{#if hasNextPage}}
-      <a href="{{nextLink}}">Siguiente ➡</a>
-    {{/if}}
-  </div>
+        <option value="{{this}}">
+            {{this}}
+        </option>
+
+    {{/each}}
+
+</select>
+
+
+</div>
+<div class="catalogo-container">
+
+<table class="tabla-productos">
+
+    <thead>
+
+        <tr>
+
+            <th>Producto</th>
+
+            <th>Categoría</th>
+
+            <th>Precio</th>
+
+            <th>Stock</th>
+
+            <th></th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+    {{#each productos}}
+
+        <tr
+    class="producto-fila"
+    data-id="{{_id}}"
+    data-titulo="{{titulo}}"
+    data-categoria="{{categoria}}"
+    data-codigo="{{codigo}}">
+
+            <td class="producto-nombre">
+                {{titulo}}
+            </td>
+
+            <td>
+
+                {{categoria}}
+
+            </td>
+
+            <td class="producto-precio">
+
+                ${{precio}}
+
+            </td>
+
+            <td>
+
+                {{stock}}
+
+            </td>
+
+            <td>
+
+                <button class="boton-agregar">
+
+                    <i class="bi bi-cart-plus-fill"></i>
+
+                    Caja
+
+                </button>
+
+            </td>
+
+        </tr>
+
+    {{/each}}
+
+    </tbody>
+
+</table>
 </div>
 
+
 <script>
-  // 👉 ID del carrito del usuario logueado
-  const idCarrito = "{{#if usuario}}{{usuario.carritoId}}{{/if}}";
 
-  const botones = document.querySelectorAll(".boton-agregar");
+const idCarrito = "{{#if usuario}}{{usuario.carritoId}}{{/if}}";
 
-  botones.forEach(function (boton) {
-    boton.addEventListener("click", function () {
-      if (!idCarrito) {
-        alert("Tenés que iniciar sesión para agregar al carrito");
-        return;
-      }
+/* ================================
+   AGREGAR A CAJA
+================================ */
 
-      const li = boton.closest("li");
-      const idProducto = li.dataset.id;
+const botones = document.querySelectorAll(".boton-agregar");
 
-      fetch(`/api/carts/${idCarrito}/products/${idProducto}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" }
-      })
-        .then(function (res) {
-          return res.json();
-        })
-        .then(function (data) {
-          if (data && data.error) {
-            alert(data.error);
+botones.forEach(function (boton){
+
+    boton.addEventListener("click",function(){
+
+        if(!idCarrito){
+
+            alert("Tenés que iniciar sesión");
+
             return;
-          }
-          alert("Producto agregado al carrito");
-        })
-        .catch(function (error) {
-          console.log("Error al agregar al carrito:", error);
-          alert("No se pudo agregar el producto al carrito");
-        });
-    });
-  });
-</script>
 
+        }
+
+        const li = boton.closest("tr");
+
+        const idProducto = li.dataset.id;
+
+        fetch(`/api/carts/${idCarrito}/products/${idProducto}`,{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            }
+
+        })
+
+        .then(function(res){
+
+            return res.json();
+
+        })
+
+        .then(function(data){
+
+            if(data.error){
+
+                alert(data.error);
+
+                return;
+
+            }
+
+            alert("Producto agregado a la Caja");
+
+        })
+
+        .catch(function(error){
+
+            console.log(error);
+
+            alert("No se pudo agregar");
+
+        });
+
+    });
+
+});
+
+
+/* ================================
+   BUSCADOR + FILTRO CATEGORÍA
+================================ */
+
+const buscador = document.getElementById("buscador-productos");
+const filtroCategoria = document.getElementById("filtro-categoria");
+
+const productos = document.querySelectorAll(".producto-fila");
+
+function filtrarProductos() {
+
+    const texto = buscador.value.toLowerCase().trim();
+    const categoriaSeleccionada = filtroCategoria.value.toLowerCase();
+
+    productos.forEach(function (producto) {
+
+        const titulo = producto.dataset.titulo.toLowerCase();
+        const categoria = producto.dataset.categoria.toLowerCase();
+        const codigo = producto.dataset.codigo.toLowerCase();
+
+    
+
+        const coincideTexto =
+            titulo.includes(texto) ||
+            categoria.includes(texto) ||
+            codigo.includes(texto);
+
+        const coincideCategoria =
+            categoriaSeleccionada === "" ||
+            categoria === categoriaSeleccionada;
+
+        producto.style.display =
+            (coincideTexto && coincideCategoria)
+                ? ""
+                : "none";
+
+    });
+
+}
+
+buscador.addEventListener("input", filtrarProductos);
+filtroCategoria.addEventListener("change", filtrarProductos);
+</script>

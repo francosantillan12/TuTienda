@@ -1,128 +1,115 @@
-<h1>{{tituloPagina}}</h1>
+<div id="caja" data-carrito="{{carrito._id}}">
 
-<div class="caja-resumen">
-  <h3>Total actual: ${{total}}</h3>
+    <h1>💵 Caja</h1>
+
+    <div class="caja-total">
+
+        <span>Total a cobrar</span>
+
+        <h2>$ {{total}}</h2>
+
+    </div>
+
+    <div class="acciones-caja">
+
+        <button id="btn-vaciar" class="btn-vaciar">
+            🗑 Cancelar venta
+        </button>
+
+        <button id="btn-comprar" class="btn-comprar">
+            💳 Cobrar
+        </button>
+
+    </div>
+
+    {{#if carrito.products.length}}
+
+    <table class="tabla-caja">
+
+        <thead>
+
+            <tr>
+
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unit.</th>
+                <th>Subtotal</th>
+                <th></th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {{#each carrito.products}}
+
+            {{#if this.product}}
+
+            <tr>
+
+                <td>
+                    {{this.product.titulo}}
+                </td>
+
+                <td>
+
+                    <button class="btn-restar" data-pid="{{this.product._id}}" data-quantity="{{this.quantity}}">
+
+                        ➖
+
+                    </button>
+
+                    <span class="cantidad-producto">
+
+                        {{this.quantity}}
+
+                    </span>
+
+                    <button class="btn-sumar" data-pid="{{this.product._id}}" data-quantity="{{this.quantity}}">
+
+                        ➕
+
+                    </button>
+
+                </td>
+
+                <td>
+                    ${{this.product.precio}}
+                </td>
+
+                <td>
+                    ${{multiplicar this.product.precio this.quantity}}
+                </td>
+
+                <td>
+
+                    <button class="btn-eliminar" data-pid="{{this.product._id}}">
+
+                        ❌
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            {{/if}}
+
+            {{/each}}
+
+        </tbody>
+
+    </table>
+
+    {{else}}
+
+    <p class="caja-vacia">
+        No hay productos cargados en la caja.
+    </p>
+
+    {{/if}}
+
 </div>
 
-<!-- <p class="carrito-id">ID del carrito: {{carrito._id}}</p> -->
-
-<!-- Botón para vaciar carrito -->
-<button id="btn-vaciar" class="btn-vaciar">Cancelar venta</button>
-
-<!-- Botón para finalizar compra -->
-<button id="btn-comprar" class="btn-comprar">Cobrar</button>
-
-{{#if carrito.products.length}}
-  <ul class="carrito-lista">
-    {{#each carrito.products}}
-      {{#if this.product}}
-        <li class="carrito-card">
-          <h3 class="producto-titulo">{{this.product.titulo}}</h3>
-
-        <p class="producto-detalle">
-  <span class="precio">
-    💰 Precio unitario: ${{this.product.precio}}
-  </span>
-
-  <span class="cantidad">
-    🛒 Cantidad: {{this.quantity}}
-  </span>
-
-  <span class="subtotal">
-    💵 Subtotal:
-    ${{this.product.precio}} x {{this.quantity}}
-  </span>
-</p>
-
-          <button
-            class="btn-eliminar"
-            data-pid="{{this.product._id}}"
-          >
-            Quitar
-          </button>
-        </li>
-      {{/if}}
-    {{/each}}
-  </ul>
-{{else}}
-  <p>No hay productos cargados en caja.</p>
-{{/if}}
-
-<script>
-  const idCarrito = "{{carrito._id}}";
-
-  /* ================================
-     ELIMINAR UN SOLO PRODUCTO
-     ================================ */
-  const botonesEliminar = document.querySelectorAll(".btn-eliminar");
-
-  botonesEliminar.forEach(function (boton) {
-    boton.addEventListener("click", function () {
-      const idProducto = boton.dataset.pid;
-
-      fetch(`/api/carts/${idCarrito}/products/${idProducto}`, {
-        method: "DELETE"
-      })
-        .then(res => res.json())
-        .then(() => {
-          alert("Producto quitado de la caja");
-          location.reload();
-        })
-        .catch(error => {
-          console.log("Error al eliminar producto:", error);
-          alert("No se pudo eliminar el producto");
-        });
-    });
-  });
-
-  /* ================================
-     VACIAR CARRITO COMPLETO
-     ================================ */
-  const btnVaciar = document.getElementById("btn-vaciar");
-
-  if (btnVaciar) {
-    btnVaciar.addEventListener("click", function () {
-      if (!confirm("¿Seguro que querés vaciar TODO el carrito?")) return;
-
-      fetch(`/api/carts/${idCarrito}`, {
-        method: "DELETE"
-      })
-        .then(res => res.json())
-        .then(() => {
-          alert("Venta cancelada");
-          location.reload();
-        })
-        .catch(error => {
-          console.log("Error al vaciar carrito:", error);
-          alert("No se pudo vaciar el carrito");
-        });
-    });
-  }
-
-  /* ================================
-     FINALIZAR COMPRA
-     ================================ */
-  const btnComprar = document.getElementById("btn-comprar");
-
-  if (btnComprar) {
-    btnComprar.addEventListener("click", function () {
-      if (!confirm("¿Confirmar compra?")) return;
-
-      fetch(`/api/carts/${idCarrito}/purchase`, {
-        method: "POST"
-      })
-        .then(res => res.json())
-        .then(data => {
-          if (data.status === "success") {
-            window.location.href = `/ticket/${data.ticket._id}`;  
-          } else {
-            alert(data.error || "No se pudo completar la compra");
-          }
-        })
-        .catch(error => {
-          console.log("Error al finalizar compra:", error);
-          alert("Error al finalizar compra");
-        });
-    });
-  }
-</script>
+<script defer src="/public/js/caja.js"></script>

@@ -68,9 +68,15 @@ app.engine(
     layoutsDir: path.join(__dirname, "..", "views", "layouts"),
     defaultLayout: "main",
     helpers: {
+
       multiplicar: function (a, b) {
         return a * b;
+      },
+    
+      eq: function (a, b) {
+        return a === b;
       }
+    
     }
   })
 );

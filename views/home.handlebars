@@ -1,62 +1,92 @@
-<h1>{{tituloPagina}}</h1>
+<h1 class="dashboard-titulo">🏪 TuTienda</h1>
 
-<div class="tabs" id="tabs">
-  <div class="tab-links">
-    <a href="#productos" data-tab="productos" class="active">Productos</a>
-    <a href="#realtime" data-tab="realtime">Administración</a>
-  </div>
-
-  <div class="tab-content" id="contenido-tabs">
-    
-    <!-- Panel Productos -->
-    <div data-panel="productos">
-    <h2>Bienvenido a TuTienda</h2>
-
-<p>
-  TuTienda es una plataforma para gestionar productos, ventas y clientes
-  desde una sola aplicación.
+<p class="dashboard-subtitulo">
+  Sistema de Gestión Comercial
 </p>
 
-<p>
-  Navegá por el catálogo de productos, administrá tu negocio y realizá
-  compras de forma simple y segura.
+<p class="dashboard-bienvenida">
+  Bienvenido al panel principal.
+  Seleccioná una opción para comenzar.
 </p>
-    </div>
 
-    <!-- Panel Tiempo Real -->
-    <div data-panel="realtime" class="oculto">
-      <p>Para ver los productos en vivo y formularios de crear/eliminar, entrá acá:</p>
-      <p><a href="/realtimeproducts">/realtimeproducts</a></p>
-    </div>
+<div class="dashboard">
+
+  <div class="dashboard-card">
+
+    <div class="dashboard-icono">📦</div>
+
+    <h3>Catálogo</h3>
+
+    <p>
+      Consultar productos disponibles y agregarlos a la Caja.
+    </p>
+
+    <a href="/products">
+      Abrir catálogo
+    </a>
 
   </div>
+
+  <div class="dashboard-card">
+
+    <div class="dashboard-icono">🛠</div>
+
+    <h3>Administración</h3>
+
+    <p>
+      Crear, editar y administrar productos.
+    </p>
+
+    <a href="/realtimeproducts">
+      Administrar
+    </a>
+
+  </div>
+
+  <div class="dashboard-card">
+
+    <div class="dashboard-icono">💵</div>
+
+    <h3>Caja</h3>
+
+    <p>
+      Registrar ventas y emitir tickets.
+    </p>
+
+    <a href="/carts/{{usuario.cart}}">
+      Abrir Caja
+    </a>
+
+  </div>
+
+  <div class="dashboard-card">
+
+    <div class="dashboard-icono">📊</div>
+
+    <h3>Ventas</h3>
+
+    <p>
+      Historial de ventas y estadísticas.
+    </p>
+
+    <a href="#">
+      Próximamente
+    </a>
+
+  </div>
+
 </div>
 
-<script>
-  (function(){
-    var cont = document.getElementById("contenido-tabs");
-    var links = document.querySelectorAll('.tab-links a');
+<hr>
 
-    function activar(tab){
-      links.forEach(function(a){
-        a.classList.toggle('active', a.dataset.tab === tab);
-      });
+<h2>Estado del sistema</h2>
 
-      var panels = cont.querySelectorAll('[data-panel]');
-      panels.forEach(function(p){
-        p.classList.toggle('oculto', p.getAttribute('data-panel') !== tab);
-      });
-    }
+<ul class="estado-sistema">
 
-    links.forEach(function(a){
-      a.addEventListener('click', function(e){
-        e.preventDefault();
-        activar(a.dataset.tab);
-        history.replaceState(null, '', '#' + a.dataset.tab);
-      });
-    });
+  <li>🟢 Base de datos conectada</li>
 
-    var hash = location.hash.replace('#','');
-    if (hash === 'realtime' || hash === 'productos') activar(hash);
-  })();
-</script>
+  <li>🟢 Usuario autenticado</li>
+
+  <li>🟢 Sistema listo para operar</li>
+
+</ul>

@@ -107,16 +107,36 @@ socket.on("productosActuales", function (productos) {
       title: formCrear.titulo.value.trim(),
       price: Number(formCrear.precio.value),
       stock: Number(formCrear.stock.value),
-      category: formCrear.categoria.value.trim(),
+      category: formCrear.categoria.value.trim().toLowerCase(),
       description: formCrear.description.value.trim(),
       code: formCrear.codigo.value.trim(),
       imagen: formCrear.imagen.value.trim()
     };
     
-    if (!datos.title || isNaN(datos.price) || isNaN(datos.stock)) {
-      console.log("⚠️ Datos inválidos", datos);
+    if (!datos.title) {
+      alert("Debés ingresar un nombre para el producto.");
       return;
-    }
+  }
+  
+  if (!datos.category) {
+      alert("Debés ingresar una categoría.");
+      return;
+  }
+  
+  if (!datos.code) {
+      alert("Debés ingresar un código.");
+      return;
+  }
+  
+  if (isNaN(datos.price) || datos.price <= 0) {
+      alert("El precio debe ser mayor a 0.");
+      return;
+  }
+  
+  if (isNaN(datos.stock) || datos.stock < 0) {
+      alert("El stock no puede ser negativo.");
+      return;
+  }
     
 
     console.log("📤 Enviando crearProducto:", datos);
