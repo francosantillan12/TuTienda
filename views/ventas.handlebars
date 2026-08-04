@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="/public/css/ventas.css">
+
+<h1>💰 Ventas</h1>
+
+<div class="ventas-dashboard">
+
+    <div class="venta-card">
+
+        <h3>🛒 Ventas realizadas</h3>
+
+        <h2>{{tickets.length}}</h2>
+
+    </div>
+
+    <div class="venta-card">
+
+        <h3>💵 Total vendido</h3>
+
+        <h2>$ {{totalVendido}}</h2>
+
+    </div>
+
+    <div class="venta-card">
+
+    <h3>📈 Ticket promedio</h3>
+
+    <h2>$ {{ticketPromedio}}</h2>
+
+</div>
+
+
+
+
+
+</div>
+
+<h2>📋 Historial de ventas</h2>
+
+<table class="tabla-ventas">
+
+    <thead>
+
+        <tr>
+
+            <th>Fecha</th>
+            <th>Ticket</th>
+            <th>Cliente</th>
+            <th>Total</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {{#each tickets}}
+
+        <tr>
+
+            <td>{{purchase_datetime}}</td>
+
+            <td>{{code}}</td>
+
+            <td>{{purchaser}}</td>
+
+            <td>$ {{amount}}</td>
+
+        </tr>
+
+        {{/each}}
+
+    </tbody>
+
+</table>
+

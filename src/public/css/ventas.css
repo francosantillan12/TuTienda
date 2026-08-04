@@ -1,0 +1,47 @@
+.ventas-dashboard{
+
+    display: flex;
+
+    gap: 20px;
+
+    margin-top: 30px;
+
+    flex-wrap: wrap;
+
+}
+
+.venta-card{
+
+    background: white;
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    min-width: 250px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,.08);
+
+    text-align: center;
+
+    flex: 1;
+
+}
+
+.venta-card h3{
+
+    margin-bottom: 15px;
+
+    color: #666;
+
+    font-size: 18px;
+
+}
+
+.venta-card h2{
+
+    font-size: 38px;
+
+    color: #222;
+
+}

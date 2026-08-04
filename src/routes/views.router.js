@@ -142,4 +142,50 @@ router.get("/reset-password/:token", function (req, res) {
   });
 });
 
+router.get("/ventas", async function (req, res) {
+
+  try {
+
+    const ticketsDB = await TicketModel.find();
+
+const tickets = ticketsDB.map(function(ticket){
+
+    return ticket.toObject();
+
+});
+
+    const totalVendido = tickets.reduce(function (total, ticket) {
+
+      return total + ticket.amount;
+
+    }, 0);
+
+    const ticketPromedio = tickets.length > 0
+  ? Math.round(totalVendido / tickets.length)
+  : 0;
+
+    res.render("ventas", {
+
+      layout: "main",
+
+      tituloPagina: "Ventas",
+
+      tickets,
+
+      totalVendido,
+
+      ticketPromedio
+
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    res.status(500).send("Error al cargar las ventas");
+
+  }
+
+});
+
 export default router;
