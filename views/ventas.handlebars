@@ -22,19 +22,67 @@
 
     <div class="venta-card">
 
-    <h3>📈 Ticket promedio</h3>
+        <h3>📈 Ticket promedio</h3>
 
-    <h2>$ {{ticketPromedio}}</h2>
+        <h2>$ {{ticketPromedio}}</h2>
+
+    </div>
+
+    <div class="venta-card">
+
+        <h3>🏆 Más vendido hoy</h3>
+
+        <h2>
+
+            {{#if productoMasVendidoHoy}}
+
+                {{productoMasVendidoHoy}}
+
+            {{else}}
+
+                Ninguna venta realizada
+
+            {{/if}}
+
+        </h2>
+
+    </div>
+
+    <div class="venta-card">
+
+    <h3>👑 Más vendido histórico</h3>
+
+    {{#if productoMasVendido}}
+
+        <h2>{{productoMasVendido}}</h2>
+
+        <p class="cantidad-vendida">
+
+            🥤 {{cantidadProductoMasVendido}} unidades
+
+        </p>
+
+    {{else}}
+
+        <h2>Calculando...</h2>
+
+    {{/if}}
 
 </div>
 
+    <div class="venta-card">
 
+        <h3>💵 Apertura de caja</h3>
 
+        <h2>Próximamente</h2>
 
+    </div>
 
 </div>
 
 <h2>📋 Historial de ventas</h2>
+
+<div class="historial-container">
 
 <table class="tabla-ventas">
 
@@ -72,4 +120,4 @@
     </tbody>
 
 </table>
-
+</div>

@@ -148,11 +148,11 @@ router.get("/ventas", async function (req, res) {
 
     const ticketsDB = await TicketModel.find();
 
-const tickets = ticketsDB.map(function(ticket){
+    const tickets = ticketsDB.map(function (ticket) {
 
-    return ticket.toObject();
+      return ticket.toObject();
 
-});
+    });
 
     const totalVendido = tickets.reduce(function (total, ticket) {
 
@@ -161,8 +161,43 @@ const tickets = ticketsDB.map(function(ticket){
     }, 0);
 
     const ticketPromedio = tickets.length > 0
-  ? Math.round(totalVendido / tickets.length)
-  : 0;
+      ? Math.round(totalVendido / tickets.length)
+      : 0;
+    const ventasPorProducto = {};
+
+    tickets.forEach(function (ticket) {
+
+      ticket.products.forEach(function (item) {
+
+        if (!ventasPorProducto[item.title]) {
+
+          ventasPorProducto[item.title] = 0;
+
+        }
+
+        ventasPorProducto[item.title] += item.quantity;
+
+      });
+
+    });
+
+    
+    let productoMasVendido = "";
+
+let cantidadProductoMasVendido = 0;
+
+for (const producto in ventasPorProducto) {
+
+  if (ventasPorProducto[producto] > cantidadProductoMasVendido) {
+
+    cantidadProductoMasVendido = ventasPorProducto[producto];
+
+    productoMasVendido = producto;
+
+  }
+
+}
+
 
     res.render("ventas", {
 
@@ -174,7 +209,11 @@ const tickets = ticketsDB.map(function(ticket){
 
       totalVendido,
 
-      ticketPromedio
+      ticketPromedio,
+
+      productoMasVendido,
+
+      cantidadProductoMasVendido
 
     });
 
