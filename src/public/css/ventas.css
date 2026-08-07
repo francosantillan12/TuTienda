@@ -153,3 +153,77 @@
     z-index: 1;
 
 }
+
+/* ===================================
+   BOTÓN VER TICKET
+=================================== */
+
+.btn-ver-ticket{
+
+    display: inline-block;
+
+    background: #3498db;
+
+    color: white;
+
+    text-decoration: none;
+
+    padding: 8px 14px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition: .2s;
+
+}
+
+.btn-ver-ticket:hover{
+
+    background: #2980b9;
+
+}
+
+/* ===================================
+   ACCIONES TICKETS
+=================================== */
+
+.acciones-ticket{
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+.btn-eliminar-ticket{
+
+    border: none;
+
+    background: #e74c3c;
+
+    color: white;
+
+    border-radius: 8px;
+
+    padding: 8px 12px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    transition: .2s;
+
+}
+
+.btn-eliminar-ticket:hover{
+
+    background: #c0392b;
+
+}

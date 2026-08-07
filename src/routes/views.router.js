@@ -163,41 +163,78 @@ router.get("/ventas", async function (req, res) {
     const ticketPromedio = tickets.length > 0
       ? Math.round(totalVendido / tickets.length)
       : 0;
-    const ventasPorProducto = {};
 
-    tickets.forEach(function (ticket) {
+    function calcularProductoMasVendido(listaTickets) {
 
-      ticket.products.forEach(function (item) {
+      const ventasPorProducto = {};
 
-        if (!ventasPorProducto[item.title]) {
+      listaTickets.forEach(function (ticket) {
 
-          ventasPorProducto[item.title] = 0;
+        ticket.products.forEach(function (item) {
 
-        }
+          if (!ventasPorProducto[item.title]) {
 
-        ventasPorProducto[item.title] += item.quantity;
+            ventasPorProducto[item.title] = 0;
+
+          }
+
+          ventasPorProducto[item.title] += item.quantity;
+
+        });
 
       });
 
-    });
+      let producto = "";
 
-    
-    let productoMasVendido = "";
+      let cantidad = 0;
 
-let cantidadProductoMasVendido = 0;
+      for (const nombre in ventasPorProducto) {
 
-for (const producto in ventasPorProducto) {
+        if (ventasPorProducto[nombre] > cantidad) {
 
-  if (ventasPorProducto[producto] > cantidadProductoMasVendido) {
+          cantidad = ventasPorProducto[nombre];
 
-    cantidadProductoMasVendido = ventasPorProducto[producto];
+          producto = nombre;
 
-    productoMasVendido = producto;
+        }
 
-  }
+      }
 
-}
+      return {
 
+        producto,
+
+        cantidad
+
+      };
+
+    }
+
+    const historico = calcularProductoMasVendido(tickets);
+
+    const productoMasVendido = historico.producto;
+
+    const cantidadProductoMasVendido = historico.cantidad;
+
+    const hoy = new Date();
+
+const ticketsHoy = tickets.filter(function (ticket) {
+
+  const fecha = new Date(ticket.purchase_datetime);
+
+  return (
+    fecha.getDate() === hoy.getDate() &&
+    fecha.getMonth() === hoy.getMonth() &&
+    fecha.getFullYear() === hoy.getFullYear()
+  );
+
+});
+
+const estadisticasHoy = calcularProductoMasVendido(ticketsHoy);
+
+const productoMasVendidoHoy = estadisticasHoy.producto;
+
+const cantidadProductoMasVendidoHoy = estadisticasHoy.cantidad;
 
     res.render("ventas", {
 
@@ -213,7 +250,11 @@ for (const producto in ventasPorProducto) {
 
       productoMasVendido,
 
-      cantidadProductoMasVendido
+      cantidadProductoMasVendido,
+
+      productoMasVendidoHoy,
+      
+      cantidadProductoMasVendidoHoy
 
     });
 

@@ -15,6 +15,7 @@ import productosRouter from "./routes/products.router.js";
 import carritosRouter from "./routes/carts.router.js";
 import sessionsRouter from "./routes/sessions.router.js";
 import usersRouter from "./routes/users.router.js";
+import ticketsRouter from "./routes/tickets.router.js";
 
 dotenv.config();
 
@@ -75,6 +76,40 @@ app.engine(
     
       eq: function (a, b) {
         return a === b;
+      },
+    
+      formatearFecha: function (fecha) {
+    
+        const f = new Date(fecha);
+    
+        const dia = String(f.getDate()).padStart(2, "0");
+    
+        const mes = String(f.getMonth() + 1).padStart(2, "0");
+    
+        const anio = f.getFullYear();
+    
+        const hora = String(f.getHours()).padStart(2, "0");
+    
+        const minutos = String(f.getMinutes()).padStart(2, "0");
+    
+        return `${dia}/${mes}/${anio} - ${hora}:${minutos}`;
+    
+      },
+    
+      formatearDinero: function (importe) {
+    
+        return "$ " + Number(importe).toLocaleString("es-AR");
+    
+      },
+
+      formatearCodigoTicket: function (codigo) {
+
+        if (!codigo) return "";
+      
+        const partes = codigo.split("-");
+      
+        return "TCK-" + partes[partes.length - 1];
+      
       }
     
     }
@@ -99,6 +134,7 @@ app.use("/api/carts", carritosRouter);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/adoption", adoptionRouter);
+app.use("/api/tickets", ticketsRouter);
 
 // Ruta de test
 app.get("/ping", function (req, res) {

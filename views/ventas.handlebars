@@ -16,7 +16,7 @@
 
         <h3>💵 Total vendido</h3>
 
-        <h2>$ {{totalVendido}}</h2>
+        <h2>{{formatearDinero totalVendido}}</h2>
 
     </div>
 
@@ -24,7 +24,7 @@
 
         <h3>📈 Ticket promedio</h3>
 
-        <h2>$ {{ticketPromedio}}</h2>
+        <h2>{{formatearDinero ticketPromedio}}</h2>
 
     </div>
 
@@ -32,27 +32,29 @@
 
         <h3>🏆 Más vendido hoy</h3>
 
-        <h2>
+        {{#if productoMasVendidoHoy}}
 
-            {{#if productoMasVendidoHoy}}
+        <h2>{{productoMasVendidoHoy}}</h2>
 
-                {{productoMasVendidoHoy}}
+        <p class="cantidad-vendida">
 
-            {{else}}
+            🥤 {{cantidadProductoMasVendidoHoy}} unidades
 
-                Ninguna venta realizada
+        </p>
 
-            {{/if}}
+        {{else}}
 
-        </h2>
+        <h2>Ninguna venta realizada</h2>
+
+        {{/if}}
 
     </div>
 
     <div class="venta-card">
 
-    <h3>👑 Más vendido histórico</h3>
+        <h3>👑 Más vendido histórico</h3>
 
-    {{#if productoMasVendido}}
+        {{#if productoMasVendido}}
 
         <h2>{{productoMasVendido}}</h2>
 
@@ -62,13 +64,13 @@
 
         </p>
 
-    {{else}}
+        {{else}}
 
         <h2>Calculando...</h2>
 
-    {{/if}}
+        {{/if}}
 
-</div>
+    </div>
 
     <div class="venta-card">
 
@@ -84,40 +86,59 @@
 
 <div class="historial-container">
 
-<table class="tabla-ventas">
+    <table class="tabla-ventas">
 
-    <thead>
+        <thead>
 
-        <tr>
+            <tr>
 
-            <th>Fecha</th>
-            <th>Ticket</th>
-            <th>Cliente</th>
-            <th>Total</th>
+                <th>Fecha</th>
+                <th>Ticket</th>
+                <th>Cliente</th>
+                <th>Total</th>
+                <th>Acción</th>
 
-        </tr>
+            </tr>
 
-    </thead>
+        </thead>
 
-    <tbody>
+        <tbody>
 
-        {{#each tickets}}
+            {{#each tickets}}
 
-        <tr>
+            <tr>
 
-            <td>{{purchase_datetime}}</td>
+                <td>{{formatearFecha purchase_datetime}}</td>
 
-            <td>{{code}}</td>
+                <td>{{formatearCodigoTicket code}}</td>
 
-            <td>{{purchaser}}</td>
+                <td>{{purchaser}}</td>
 
-            <td>$ {{amount}}</td>
+                <td>{{formatearDinero amount}}</td>
 
-        </tr>
+                <td class="acciones-ticket">
 
-        {{/each}}
+                    <a href="/ticket/{{_id}}" class="btn-ver-ticket">
 
-    </tbody>
+                        👁 Ver
 
-</table>
+                    </a>
+
+                    <button class="btn-eliminar-ticket" data-id="{{_id}}">
+
+                        🗑
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            {{/each}}
+
+        </tbody>
+
+    </table>
 </div>
+
+<script defer src="/public/js/ventas.js"></script>
