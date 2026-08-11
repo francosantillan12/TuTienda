@@ -72,20 +72,15 @@
 
     width: 100%;
 
-    border-collapse: collapse;
+    border-collapse: separate;
+
+    border-spacing: 0;
 
     background: white;
 
-    border-radius: 12px;
-
-    overflow: hidden;
-
-    margin-top: 20px;
-
-    box-shadow: 0 4px 10px rgba(0, 0, 0, .08);
+    margin-top: 0;
 
 }
-
 .tabla-ventas thead {
 
     background: #222;
@@ -120,12 +115,13 @@
 /* ===================================
    CONTENEDOR DEL HISTORIAL
 =================================== */
-
-.historial-container{
+.historial-container {
 
     max-height: 400px;
 
     overflow-y: auto;
+
+    overflow-x: hidden;
 
     border-radius: 12px;
 
@@ -140,17 +136,31 @@
 }
 
 
-.tabla-ventas thead th{
+.tabla-ventas thead th {
 
     position: sticky;
 
     top: 0;
 
-    background: #222;
+    background: #222 !important;
 
-    color: white;
+    color: white !important;
 
-    z-index: 1;
+    z-index: 10;
+
+}
+
+.tabla-ventas thead tr:hover {
+
+    background: #222 !important;
+
+}
+
+.tabla-ventas thead th:hover {
+
+    background: #222 !important;
+
+    color: white !important;
 
 }
 
@@ -228,4 +238,4 @@
 
 }
 
-background: #2ecc71;
+
