@@ -72,9 +72,19 @@ router.get("/carts/:cid", async (req, res) => {
 
     const carritoPlano = carrito.toObject();
 
-    const total = carrito.products.reduce(function (acumulador, item) {
+    const totalProductos = carrito.products.reduce(function (acumulador, item) {
+
       return acumulador + (item.product.precio * item.quantity);
+
     }, 0);
+
+    const totalManuales = (carrito.manualItems || []).reduce(function (acumulador, item) {
+
+      return acumulador + item.price;
+
+    }, 0);
+
+    const total = totalProductos + totalManuales;
 
     res.render("carts", {
       layout: "main",
@@ -218,23 +228,36 @@ router.get("/ventas", async function (req, res) {
 
     const hoy = new Date();
 
-const ticketsHoy = tickets.filter(function (ticket) {
+    const ticketsHoy = tickets.filter(function (ticket) {
 
-  const fecha = new Date(ticket.purchase_datetime);
+      const fecha = new Date(ticket.purchase_datetime);
 
-  return (
-    fecha.getDate() === hoy.getDate() &&
-    fecha.getMonth() === hoy.getMonth() &&
-    fecha.getFullYear() === hoy.getFullYear()
-  );
+      return (
+        fecha.getDate() === hoy.getDate() &&
+        fecha.getMonth() === hoy.getMonth() &&
+        fecha.getFullYear() === hoy.getFullYear()
+      );
 
-});
+    });
 
-const estadisticasHoy = calcularProductoMasVendido(ticketsHoy);
+    const estadisticasHoy = calcularProductoMasVendido(ticketsHoy);
 
-const productoMasVendidoHoy = estadisticasHoy.producto;
+    const productoMasVendidoHoy = estadisticasHoy.producto;
 
-const cantidadProductoMasVendidoHoy = estadisticasHoy.cantidad;
+    const cantidadProductoMasVendidoHoy = estadisticasHoy.cantidad;
+
+
+    const ventasHoy = ticketsHoy.length;
+
+    const totalVendidoHoy = ticketsHoy.reduce(function (total, ticket) {
+
+      return total + ticket.amount;
+
+    }, 0);
+
+    const ticketPromedioHoy = ventasHoy > 0
+      ? Math.round(totalVendidoHoy / ventasHoy)
+      : 0;
 
     res.render("ventas", {
 
@@ -253,8 +276,14 @@ const cantidadProductoMasVendidoHoy = estadisticasHoy.cantidad;
       cantidadProductoMasVendido,
 
       productoMasVendidoHoy,
-      
-      cantidadProductoMasVendidoHoy
+
+      cantidadProductoMasVendidoHoy,
+
+      ventasHoy,
+
+      totalVendidoHoy,
+
+      ticketPromedioHoy,
 
     });
 

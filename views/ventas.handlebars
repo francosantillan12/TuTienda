@@ -4,83 +4,133 @@
 
 <div class="ventas-dashboard">
 
+    <!-- VENTAS REALIZADAS HOY -->
     <div class="venta-card">
 
-        <h3>🛒 Ventas realizadas</h3>
+        <h3>🛒 Ventas realizadas hoy</h3>
 
-        <h2>{{tickets.length}}</h2>
+        <h2 id="ventas-realizadas">
+            {{ventasHoy}}
+        </h2>
 
     </div>
 
+
+    <!-- TOTAL VENDIDO HOY -->
     <div class="venta-card">
 
-        <h3>💵 Total vendido</h3>
+        <h3>💵 Total vendido hoy</h3>
 
-        <h2>{{formatearDinero totalVendido}}</h2>
+        <h2 id="total-vendido">
+            {{formatearDinero totalVendidoHoy}}
+        </h2>
 
     </div>
 
+
+    <!-- TICKET PROMEDIO HOY -->
     <div class="venta-card">
 
-        <h3>📈 Ticket promedio</h3>
+        <h3>📈 Ticket promedio hoy</h3>
 
-        <h2>{{formatearDinero ticketPromedio}}</h2>
+        <h2 id="ticket-promedio">
+            {{formatearDinero ticketPromedioHoy}}
+        </h2>
 
     </div>
 
+
+    <!-- MÁS VENDIDO HOY -->
     <div class="venta-card">
 
         <h3>🏆 Más vendido hoy</h3>
 
         {{#if productoMasVendidoHoy}}
 
-        <h2>{{productoMasVendidoHoy}}</h2>
+        <h2 id="producto-mas-vendido-hoy">
+            {{productoMasVendidoHoy}}
+        </h2>
 
         <p class="cantidad-vendida">
-
-            🥤 {{cantidadProductoMasVendidoHoy}} unidades
-
+            🥤
+            <span id="cantidad-mas-vendido-hoy">
+                {{cantidadProductoMasVendidoHoy}}
+            </span>
+            unidades
         </p>
 
         {{else}}
 
-        <h2>Ninguna venta realizada</h2>
+        <h2 id="producto-mas-vendido-hoy">
+            Ninguna venta realizada
+        </h2>
+
+        <p class="cantidad-vendida">
+            🥤
+            <span id="cantidad-mas-vendido-hoy">
+                0
+            </span>
+            unidades
+        </p>
 
         {{/if}}
 
     </div>
 
+
+    <!-- MÁS VENDIDO HISTÓRICO -->
     <div class="venta-card">
 
         <h3>👑 Más vendido histórico</h3>
 
         {{#if productoMasVendido}}
 
-        <h2>{{productoMasVendido}}</h2>
+        <h2 id="producto-mas-vendido">
+            {{productoMasVendido}}
+        </h2>
 
         <p class="cantidad-vendida">
-
-            🥤 {{cantidadProductoMasVendido}} unidades
-
+            🥤
+            <span id="cantidad-mas-vendido">
+                {{cantidadProductoMasVendido}}
+            </span>
+            unidades
         </p>
 
         {{else}}
 
-        <h2>Calculando...</h2>
+        <h2 id="producto-mas-vendido">
+            Calculando...
+        </h2>
+
+        <p class="cantidad-vendida">
+            🥤
+            <span id="cantidad-mas-vendido">
+                0
+            </span>
+            unidades
+        </p>
 
         {{/if}}
 
     </div>
 
+
+    <!-- TOTAL VENDIDO HISTÓRICO -->
     <div class="venta-card">
 
-        <h3>💵 Apertura de caja</h3>
+        <h3>💰 Total vendido histórico</h3>
 
-        <h2>Próximamente</h2>
+        <h2 id="total-vendido-historico">
+            {{formatearDinero totalVendido}}
+        </h2>
 
     </div>
 
 </div>
+
+
+<!-- HISTORIAL DE VENTAS -->
 
 <h2>📋 Historial de ventas</h2>
 
@@ -93,14 +143,19 @@
             <tr>
 
                 <th>Fecha</th>
+
                 <th>Ticket</th>
+
                 <th>Cliente</th>
+
                 <th>Total</th>
+
                 <th>Acción</th>
 
             </tr>
 
         </thead>
+
 
         <tbody>
 
@@ -108,26 +163,30 @@
 
             <tr>
 
-                <td>{{formatearFecha purchase_datetime}}</td>
+                <td>
+                    {{formatearFecha purchase_datetime}}
+                </td>
 
-                <td>{{formatearCodigoTicket code}}</td>
+                <td>
+                    {{formatearCodigoTicket code}}
+                </td>
 
-                <td>{{purchaser}}</td>
+                <td>
+                    {{purchaser}}
+                </td>
 
-                <td>{{formatearDinero amount}}</td>
+                <td>
+                    {{formatearDinero amount}}
+                </td>
 
                 <td class="acciones-ticket">
 
                     <a href="/ticket/{{_id}}" class="btn-ver-ticket">
-
                         👁 Ver
-
                     </a>
 
                     <button class="btn-eliminar-ticket" data-id="{{_id}}">
-
                         🗑
-
                     </button>
 
                 </td>
@@ -139,6 +198,8 @@
         </tbody>
 
     </table>
+
 </div>
+
 
 <script defer src="/public/js/ventas.js"></script>

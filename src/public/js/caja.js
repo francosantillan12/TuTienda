@@ -29,25 +29,25 @@ function actualizarCantidad(idProducto, cantidad) {
 
     })
 
-    .then(function (res) {
+        .then(function (res) {
 
-        return res.json();
+            return res.json();
 
-    })
+        })
 
-    .then(function () {
+        .then(function () {
 
-        recargarCaja();
+            recargarCaja();
 
-    })
+        })
 
-    .catch(function (error) {
+        .catch(function (error) {
 
-        console.log(error);
+            console.log(error);
 
-        alert("No se pudo actualizar la cantidad.");
+            alert("No se pudo actualizar la cantidad.");
 
-    });
+        });
 
 }
 
@@ -63,25 +63,25 @@ function eliminarProducto(idProducto) {
 
     })
 
-    .then(function (res) {
+        .then(function (res) {
 
-        return res.json();
+            return res.json();
 
-    })
+        })
 
-    .then(function () {
+        .then(function () {
 
-        recargarCaja();
+            recargarCaja();
 
-    })
+        })
 
-    .catch(function (error) {
+        .catch(function (error) {
 
-        console.log(error);
+            console.log(error);
 
-        alert("No se pudo eliminar el producto.");
+            alert("No se pudo eliminar el producto.");
 
-    });
+        });
 
 }
 
@@ -123,27 +123,27 @@ if (btnVaciar) {
 
         })
 
-        .then(function (res) {
+            .then(function (res) {
 
-            return res.json();
+                return res.json();
 
-        })
+            })
 
-        .then(function () {
+            .then(function () {
 
-            alert("Venta cancelada");
+                alert("Venta cancelada");
 
-            recargarCaja();
+                recargarCaja();
 
-        })
+            })
 
-        .catch(function (error) {
+            .catch(function (error) {
 
-            console.log(error);
+                console.log(error);
 
-            alert("No se pudo cancelar la venta");
+                alert("No se pudo cancelar la venta");
 
-        });
+            });
 
     });
 
@@ -171,33 +171,33 @@ if (btnComprar) {
 
         })
 
-        .then(function (res) {
+            .then(function (res) {
 
-            return res.json();
+                return res.json();
 
-        })
+            })
 
-        .then(function (data) {
+            .then(function (data) {
 
-            if (data.status === "success") {
+                if (data.status === "success") {
 
-                window.location.href = `/ticket/${data.ticket._id}`;
+                    window.location.href = `/ticket/${data.ticket._id}`;
 
-            } else {
+                } else {
 
-                alert(data.error || "No se pudo completar la compra");
+                    alert(data.error || "No se pudo completar la compra");
 
-            }
+                }
 
-        })
+            })
 
-        .catch(function (error) {
+            .catch(function (error) {
 
-            console.log(error);
+                console.log(error);
 
-            alert("Error al finalizar la compra");
+                alert("Error al finalizar la compra");
 
-        });
+            });
 
     });
 
@@ -254,6 +254,143 @@ botonesRestar.forEach(function (boton) {
             cantidadActual - 1
 
         );
+
+    });
+
+});
+
+
+const btnAgregarManual = document.getElementById("btn-agregar-manual");
+
+if (btnAgregarManual) {
+
+    btnAgregarManual.addEventListener("click", function () {
+
+        const descripcion =
+            document.getElementById("descripcion-manual").value.trim();
+
+        const importe =
+            Number(document.getElementById("importe-manual").value);
+
+        if (!descripcion) {
+
+            alert("Ingresá una descripción.");
+
+            return;
+
+        }
+
+        if (!importe || importe <= 0) {
+
+            alert("Ingresá un importe válido.");
+
+            return;
+
+        }
+
+        fetch(`/api/carts/${idCarrito}/manual-item`, {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                title: descripcion,
+
+                price: importe
+
+            })
+
+        })
+
+            .then(function (res) {
+
+                return res.json();
+
+            })
+
+            .then(function (data) {
+
+                if (data.status === "success") {
+
+                    recargarCaja();
+
+                } else {
+
+                    alert(
+                        data.message ||
+                        "No se pudo agregar el importe manual."
+                    );
+
+                }
+
+            })
+
+            .catch(function (error) {
+
+                console.log(error);
+
+                alert("Error al agregar el importe manual.");
+
+            });
+
+    });
+
+}
+
+const botonesEliminarManual =
+    document.querySelectorAll(".btn-eliminar-manual");
+
+botonesEliminarManual.forEach(function (boton) {
+
+    boton.addEventListener("click", function () {
+
+        if (!confirm("¿Eliminar este importe?")) {
+
+            return;
+
+        }
+
+        fetch(
+            `/api/carts/${idCarrito}/manual-item/${boton.dataset.id}`,
+            {
+                method: "DELETE"
+            }
+        )
+
+        .then(function (res) {
+
+            return res.json();
+
+        })
+
+        .then(function (data) {
+
+            if (data.status === "success") {
+
+                recargarCaja();
+
+            } else {
+
+                alert(
+                    data.message ||
+                    "No se pudo eliminar el importe."
+                );
+
+            }
+
+        })
+
+        .catch(function (error) {
+
+            console.log(error);
+
+            alert("Error al eliminar el importe.");
+
+        });
 
     });
 

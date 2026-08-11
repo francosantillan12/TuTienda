@@ -17,6 +17,8 @@ class CartsService {
 
     const productosComprados = [];
     const productosSinStock = [];
+    const itemsManuales = carrito.manualItems || [];
+
     let totalCompra = 0;
 
     for (const item of carrito.products) {
@@ -46,6 +48,17 @@ class CartsService {
       }
     }
 
+
+    // =========================================
+// IMPORTES MANUALES
+// =========================================
+
+for (const item of itemsManuales) {
+
+  totalCompra += Number(item.price) || 0;
+
+}
+
     if (productosComprados.length === 0) {
       return {
         status: "error",
@@ -61,7 +74,8 @@ class CartsService {
       code: code,
       amount: totalCompra,
       purchaser: user.email,
-      products: productosComprados
+      products: productosComprados,
+      manualItems: itemsManuales
     });
 
     // ✅ Enviar comprobante por mail
@@ -73,6 +87,8 @@ class CartsService {
 
     // ✅ Actualizar carrito: solo quedan los productos sin stock
     carrito.products = productosSinStock;
+    carrito.manualItems = [];
+
     await carrito.save();
 
     return {

@@ -143,6 +143,76 @@ router.delete("/:cid/products/:pid", async (req, res) => {
   }
 });
 
+router.delete("/:cid/manual-item/:itemId", async function (req, res) {
+
+  try {
+
+      const { cid, itemId } = req.params;
+
+      const carrito = await CarritoModel.findById(cid);
+
+      if (!carrito) {
+
+          return res.status(404).json({
+
+              status: "error",
+
+              message: "Carrito no encontrado"
+
+          });
+
+      }
+
+      const itemExiste = carrito.manualItems.some(function (item) {
+
+          return String(item._id) === String(itemId);
+
+      });
+
+      if (!itemExiste) {
+
+          return res.status(404).json({
+
+              status: "error",
+
+              message: "Importe manual no encontrado"
+
+          });
+
+      }
+
+      carrito.manualItems = carrito.manualItems.filter(function (item) {
+
+          return String(item._id) !== String(itemId);
+
+      });
+
+      await carrito.save();
+
+      res.json({
+
+          status: "success",
+
+          message: "Importe manual eliminado"
+
+      });
+
+  } catch (error) {
+
+      console.log(error);
+
+      res.status(500).json({
+
+          status: "error",
+
+          message: "No se pudo eliminar el importe manual"
+
+      });
+
+  }
+
+});
+
 // actualizar la cantidad de un producto
 router.put("/:cid/products/:pid", async (req, res) => {
   try {
@@ -287,6 +357,74 @@ router.post(
     }
   }
 );
+
+router.post("/:cid/manual-item", async function (req, res) {
+
+  try {
+
+      const { cid } = req.params;
+
+      const { title, price } = req.body;
+
+      if (!title || !price) {
+
+          return res.status(400).json({
+
+              status: "error",
+
+              message: "Descripción e importe son obligatorios"
+
+          });
+
+      }
+
+      const carrito = await CarritoModel.findById(cid);
+
+      if (!carrito) {
+
+          return res.status(404).json({
+
+              status: "error",
+
+              message: "Carrito no encontrado"
+
+          });
+
+      }
+
+      carrito.manualItems.push({
+
+          title: String(title).trim(),
+
+          price: Number(price)
+
+      });
+
+      await carrito.save();
+
+      res.json({
+
+          status: "success",
+
+          message: "Importe manual agregado"
+
+      });
+
+  } catch (error) {
+
+      console.log(error);
+
+      res.status(500).json({
+
+          status: "error",
+
+          message: "No se pudo agregar el importe manual"
+
+      });
+
+  }
+
+});
 
 export default router;
 
