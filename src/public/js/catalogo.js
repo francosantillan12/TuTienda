@@ -13,6 +13,37 @@ const tbody = document.querySelector(".tabla-productos tbody");
 
 let productos = Array.from(document.querySelectorAll(".producto-fila"));
 
+
+/* ===================================
+   FORMATEAR FECHA DE VENCIMIENTO
+=================================== */
+
+productos.forEach(function (producto) {
+
+    const celda = producto.querySelector(".producto-vencimiento");
+
+    if (!celda) return;
+
+    const texto = celda.textContent.trim();
+
+    if (!texto || texto === "-") return;
+
+    const coincidencia = texto.match(
+        /(\d{2})\/(\d{2})\/(\d{4})/
+    );
+
+    if (!coincidencia) return;
+
+    const dia = coincidencia[1];
+    const mes = coincidencia[2];
+    const año = coincidencia[3];
+
+    celda.textContent =
+        `${dia}/${mes}/${año.substring(2)}`;
+
+});
+
+
 /* ===================================
    AGREGAR A CAJA
 =================================== */
@@ -137,6 +168,9 @@ ordenarProductos.addEventListener("change", function () {
 
     const orden = ordenarProductos.value;
 
+
+    /* STOCK MAYOR A MENOR */
+
     if (orden === "stock-desc") {
 
         productos.sort(function (a, b) {
@@ -146,6 +180,9 @@ ordenarProductos.addEventListener("change", function () {
         });
 
     }
+
+
+    /* STOCK MENOR A MAYOR */
 
     if (orden === "stock-asc") {
 
@@ -157,6 +194,55 @@ ordenarProductos.addEventListener("change", function () {
 
     }
 
+
+    /* VENCIMIENTO MÁS PRÓXIMO */
+
+    if (orden === "vencimiento-asc") {
+
+        productos.sort(function (a, b) {
+
+            const fechaA =
+                a.dataset.fechaVencimiento
+                    ? new Date(a.dataset.fechaVencimiento).getTime()
+                    : Infinity;
+
+            const fechaB =
+                b.dataset.fechaVencimiento
+                    ? new Date(b.dataset.fechaVencimiento).getTime()
+                    : Infinity;
+
+            return fechaA - fechaB;
+
+        });
+
+    }
+
+
+    /* VENCIMIENTO MÁS LEJANO */
+
+    if (orden === "vencimiento-desc") {
+
+        productos.sort(function (a, b) {
+
+            const fechaA =
+                a.dataset.fechaVencimiento
+                    ? new Date(a.dataset.fechaVencimiento).getTime()
+                    : -Infinity;
+
+            const fechaB =
+                b.dataset.fechaVencimiento
+                    ? new Date(b.dataset.fechaVencimiento).getTime()
+                    : -Infinity;
+
+            return fechaB - fechaA;
+
+        });
+
+    }
+
+
+    /* VOLVER A DIBUJAR LA TABLA */
+
     tbody.innerHTML = "";
 
     productos.forEach(function (producto) {
@@ -166,5 +252,3 @@ ordenarProductos.addEventListener("change", function () {
     });
 
 });
-
-

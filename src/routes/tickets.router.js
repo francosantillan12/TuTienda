@@ -221,5 +221,85 @@ router.get("/estadisticas", async function (req, res) {
 
 });
 
+router.get("/por-periodo", async function (req, res) {
+
+    try {
+
+        const { desde, hasta } = req.query;
+
+        if (!desde || !hasta) {
+
+            return res.status(400).json({
+
+                status: "error",
+
+                error: "Debés indicar una fecha desde y una fecha hasta"
+
+            });
+
+        }
+
+        if (desde > hasta) {
+
+            return res.status(400).json({
+
+                status: "error",
+
+                error: "La fecha desde no puede ser posterior a la fecha hasta"
+
+            });
+
+        }
+
+        // Inicio del día seleccionado
+        const fechaDesde = new Date(`${desde}T00:00:00`);
+
+        // Fin del día seleccionado
+        const fechaHasta = new Date(`${hasta}T23:59:59.999`);
+
+        const tickets = await TicketModel.find({
+
+            purchase_datetime: {
+
+                $gte: fechaDesde,
+
+                $lte: fechaHasta
+
+            }
+
+        });
+
+        const totalVendido = tickets.reduce(function (total, ticket) {
+
+            return total + ticket.amount;
+
+        }, 0);
+
+        res.json({
+
+            status: "success",
+
+            totalVendido,
+
+            cantidadVentas: tickets.length
+
+        });
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+
+            status: "error",
+
+            error: "Error al consultar las ventas por período"
+
+        });
+
+    }
+
+});
+
 export default router;
 

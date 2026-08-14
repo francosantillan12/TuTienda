@@ -48,6 +48,7 @@ socket.on("crearProducto", (datos) => {
     descripcion,
     categoria,
     imagen: datos.imagen || "",
+    fechaVencimiento: datos.fechaVencimiento || null,
   };
 
   ProductoModel.create(nuevo)
@@ -92,6 +93,11 @@ socket.on("editarProducto", (datos) => {
 
 if (datos.titulo && datos.titulo.trim() !== "") {
   actualizacion.titulo = datos.titulo.trim();
+}
+
+if (datos.fechaVencimiento !== undefined) {
+  actualizacion.fechaVencimiento =
+      datos.fechaVencimiento || null;
 }
 
   if (!isNaN(datos.precio)) {

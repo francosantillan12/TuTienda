@@ -4,11 +4,7 @@
 
     <div class="buscador-productos">
 
-        <input
-            type="text"
-            id="buscador-productos"
-            placeholder="🔍 Buscar producto..."
-        >
+        <input type="text" id="buscador-productos" placeholder="🔍 Buscar producto...">
 
         <select id="filtro-categoria">
 
@@ -16,9 +12,9 @@
 
             {{#each categorias}}
 
-                <option value="{{this}}">
-                    {{this}}
-                </option>
+            <option value="{{this}}">
+                {{this}}
+            </option>
 
             {{/each}}
 
@@ -34,6 +30,14 @@
 
             <option value="stock-asc">
                 Stock (Menor a mayor)
+            </option>
+
+            <option value="vencimiento-asc">
+                Vencimiento (Más próximo)
+            </option>
+
+            <option value="vencimiento-desc">
+                Vencimiento (Más lejano)
             </option>
 
         </select>
@@ -52,6 +56,7 @@
                     <th>Categoría</th>
                     <th>Precio</th>
                     <th>Stock</th>
+                    <th>Vencimiento</th>
                     <th></th>
 
                 </tr>
@@ -62,14 +67,16 @@
 
                 {{#each productos}}
 
-                <tr
-                    class="producto-fila"
-                    data-id="{{_id}}"
-                    data-titulo="{{titulo}}"
+                <tr class="producto-fila"  
+                    data-id="{{_id}}" 
+                    data-titulo="{{titulo}}" 
                     data-categoria="{{categoria}}"
-                    data-codigo="{{codigo}}"
+                    data-codigo="{{codigo}}" 
                     data-stock="{{stock}}"
-                    data-precio="{{precio}}">
+                    data-precio="{{precio}}"
+                    data-fecha-vencimiento="{{fechaVencimiento}}"
+                    >
+                    
 
                     <td class="producto-nombre">
 
@@ -93,6 +100,14 @@
 
                         {{stock}}
 
+                    </td>
+
+                   <td class="producto-vencimiento">
+                        {{#if fechaVencimiento}}
+                            {{formatearFecha fechaVencimiento}}
+                        {{else}}
+                            -
+                        {{/if}}
                     </td>
 
                     <td>

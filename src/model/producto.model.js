@@ -32,6 +32,10 @@ const productosSchema = new mongoose.Schema({
     type: String,
     default: "" 
   },
+  fechaVencimiento: {
+    type: Date,
+    default: null
+  },
   fechaCreacion: {
     type: Date,
     default: Date.now

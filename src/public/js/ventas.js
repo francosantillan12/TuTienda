@@ -106,3 +106,76 @@ function actualizarEstadisticas() {
         });
 
 }
+
+/* ===================================
+   CONSULTAR VENTAS POR PERÍODO
+=================================== */
+
+const fechaDesde = document.getElementById("fecha-desde");
+const fechaHasta = document.getElementById("fecha-hasta");
+const btnConsultarVentas = document.getElementById("btn-consultar-ventas");
+const totalVendidoPeriodo = document.getElementById("total-vendido-periodo");
+const cantidadVentasPeriodo = document.getElementById("cantidad-ventas-periodo");
+
+if (btnConsultarVentas) {
+
+    btnConsultarVentas.addEventListener("click", function () {
+
+        const desde = fechaDesde.value;
+        const hasta = fechaHasta.value;
+
+        if (!desde || !hasta) {
+
+            alert("Seleccioná una fecha de inicio y una fecha de fin.");
+
+            return;
+
+        }
+
+        if (desde > hasta) {
+
+            alert("La fecha desde no puede ser posterior a la fecha hasta.");
+
+            return;
+
+        }
+
+        fetch(`/api/tickets/por-periodo?desde=${desde}&hasta=${hasta}`)
+
+            .then(function (res) {
+
+                return res.json();
+
+            })
+
+            .then(function (data) {
+
+                if (data.status !== "success") {
+
+                    alert(data.error || "No se pudieron consultar las ventas.");
+
+                    return;
+
+                }
+
+                totalVendidoPeriodo.textContent =
+                    "$ " + Number(data.totalVendido).toLocaleString("es-AR");
+
+                cantidadVentasPeriodo.textContent =
+                    data.cantidadVentas === 1
+                        ? "1 venta realizada"
+                        : `${data.cantidadVentas} ventas realizadas`;
+
+            })
+
+            .catch(function (error) {
+
+                console.log(error);
+
+                alert("Error al consultar las ventas.");
+
+            });
+
+    });
+
+}

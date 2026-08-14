@@ -116,19 +116,46 @@
     </div>
 
 
-    <!-- TOTAL VENDIDO HISTÓRICO -->
-    <div class="venta-card">
 
-        <h3>💰 Total vendido histórico</h3>
+    <!-- VENTAS POR PERÍODO -->
+   <div class="venta-card">
 
-        <h2 id="total-vendido-historico">
-            {{formatearDinero totalVendido}}
-        </h2>
+    <h3>📊 Ventas por período</h3>
+
+    <div class="filtro-ventas">
+
+        <div class="fechas-periodo">
+
+            <label>
+                Desde
+                <input type="date" id="fecha-desde">
+            </label>
+
+            <span class="separador-fechas">→</span>
+
+            <label>
+                Hasta
+                <input type="date" id="fecha-hasta">
+            </label>
+
+        </div>
+
+        <button type="button" id="btn-consultar-ventas">
+            🔎 Consultar
+        </button>
 
     </div>
 
-</div>
+    <h2 id="total-vendido-periodo">
+    $0
+    </h2>
 
+    <p id="cantidad-ventas-periodo">
+        Seleccioná un período
+    </p>
+
+</div>
+</div>
 
 <!-- HISTORIAL DE VENTAS -->
 
