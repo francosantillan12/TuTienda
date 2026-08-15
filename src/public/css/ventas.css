@@ -1,71 +1,162 @@
-/* ===================================
+/* =========================================================
    DASHBOARD
-=================================== */
+========================================================= */
 
 .ventas-dashboard {
 
     display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+
+    grid-template-rows: 160px 170px;
 
     gap: 18px;
 
-    margin: 30px 0;
+    margin: 25px 0 30px;
 
 }
 
 
-/* ===================================
-   TARJETAS DE VENTAS
-=================================== */
+/* =========================================================
+   TARJETAS
+========================================================= */
 
 .venta-card {
 
-    position: relative;
-
-    background: #ffffff;
+    background: #fff;
 
     border-radius: 16px;
 
-    padding: 24px 22px;
-
-    min-height: 150px;
+    padding: 20px 24px;
 
     box-sizing: border-box;
 
-    box-shadow:
-        0 4px 12px rgba(0, 0, 0, .06);
-
-    text-align: center;
-
     border: 1px solid #eeeeee;
 
-    border-left: 5px solid #2ecc71;
+    border-left: 4px solid #2ecc71;
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.07);
+
+    text-align: left;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
 
     transition:
-        transform .2s ease,
-        box-shadow .2s ease;
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+    overflow: hidden;
 
 }
 
-
-/* EFECTO SUAVE AL PASAR EL MOUSE */
 
 .venta-card:hover {
 
-    transform: translateY(-3px);
+    transform: translateY(-2px);
 
     box-shadow:
-        0 8px 20px rgba(0, 0, 0, .09);
+        0 8px 22px rgba(0, 0, 0, 0.10);
 
 }
 
 
-/* TÍTULO */
+/* =========================================================
+   DISTRIBUCIÓN EXACTA
+========================================================= */
+
+/* Ventas realizadas hoy */
+
+.venta-card:nth-child(1) {
+
+    grid-column: 1;
+
+    grid-row: 1;
+
+}
+
+
+/* Total vendido hoy */
+
+.venta-card:nth-child(2) {
+
+    grid-column: 2;
+
+    grid-row: 1;
+
+}
+
+
+/* Ticket promedio */
+
+.venta-card:nth-child(3) {
+
+    grid-column: 3;
+
+    grid-row: 1;
+
+}
+
+
+/* Más vendido hoy */
+
+.venta-card:nth-child(4) {
+
+    grid-column: 1;
+
+    grid-row: 2;
+
+}
+
+
+/* Más vendido histórico */
+
+.venta-card:nth-child(5) {
+
+    grid-column: 2 / span 2;
+
+    grid-row: 2;
+
+}
+
+
+/* =========================================================
+   VENTAS POR PERÍODO
+   Ocupa toda la columna derecha
+========================================================= */
+
+.venta-card:nth-child(6) {
+
+    grid-column: 4;
+
+    grid-row: 1 / span 2;
+
+    padding: 22px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+}
+
+
+/* =========================================================
+   TÍTULOS
+========================================================= */
 
 .venta-card h3 {
 
-    margin: 0 0 18px;
+    margin: 0 0 12px;
 
     color: #555;
 
@@ -73,33 +164,39 @@
 
     font-weight: 600;
 
+    line-height: 1.3;
+
 }
 
 
-/* NÚMERO PRINCIPAL */
+/* =========================================================
+   NÚMEROS PRINCIPALES
+========================================================= */
 
 .venta-card h2 {
 
     margin: 0;
 
-    color: #222;
+    color: #151515;
 
-    font-size: 31px;
+    font-size: 30px;
 
     font-weight: 700;
 
-    letter-spacing: -0.5px;
+    line-height: 1.2;
 
 }
 
 
-/* CANTIDAD VENDIDA */
+/* =========================================================
+   CANTIDAD VENDIDA
+========================================================= */
 
 .cantidad-vendida {
 
-    margin: 12px 0 0;
+    margin: 8px 0 0;
 
-    color: #777;
+    color: #666;
 
     font-size: 14px;
 
@@ -108,27 +205,73 @@
 }
 
 
-/* ===================================
-   TARJETA VENTAS POR PERÍODO
-=================================== */
+/* =========================================================
+   PRODUCTOS MÁS VENDIDOS
+========================================================= */
 
-.venta-card:has(#fecha-desde) {
+#producto-mas-vendido,
+#producto-mas-vendido-hoy {
 
-    padding: 20px;
+    font-size: 27px;
 
-    min-height: 150px;
+    margin: 3px 0 0;
 
-}
+    color: #171717;
 
-
-.venta-card:has(#fecha-desde) h3 {
-
-    margin-bottom: 15px;
+    line-height: 1.2;
 
 }
 
 
-/* CONTENEDOR DE FECHAS */
+/* =========================================================
+   MÁS VENDIDO HOY
+========================================================= */
+
+.venta-card:nth-child(4) {
+
+    justify-content: center;
+
+}
+
+
+/* =========================================================
+   MÁS VENDIDO HISTÓRICO
+========================================================= */
+
+.venta-card:nth-child(5) {
+
+    justify-content: center;
+
+}
+
+
+/* =========================================================
+   VENTAS POR PERÍODO
+========================================================= */
+
+.venta-card:nth-child(6) h3 {
+
+    text-align: center;
+
+    margin-bottom: 18px;
+
+}
+
+
+/* Contenedor del formulario */
+
+.venta-card:nth-child(6) .filtro-ventas {
+
+    width: 100%;
+
+    max-width: 370px;
+
+}
+
+
+/* =========================================================
+   FORMULARIO
+========================================================= */
 
 .filtro-ventas {
 
@@ -136,12 +279,14 @@
 
     flex-direction: column;
 
-    gap: 10px;
+    gap: 12px;
 
 }
 
 
-/* FECHAS */
+/* =========================================================
+   FECHAS
+========================================================= */
 
 .fechas-periodo {
 
@@ -149,7 +294,9 @@
 
     align-items: flex-end;
 
-    gap: 7px;
+    gap: 8px;
+
+    width: 100%;
 
 }
 
@@ -162,55 +309,63 @@
 
     flex-direction: column;
 
-    gap: 5px;
+    gap: 6px;
 
-    color: #666;
-
-    font-size: 12px;
+    font-size: 13px;
 
     font-weight: 600;
+
+    color: #555;
 
     text-align: left;
 
 }
 
 
-.fechas-periodo input[type="date"] {
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.filtro-ventas input[type="date"] {
 
     width: 100%;
 
     box-sizing: border-box;
 
-    padding: 8px 9px;
+    padding: 9px 10px;
 
     border: 1px solid #dddddd;
 
     border-radius: 8px;
 
-    background: #fafafa;
+    font-size: 13px;
+
+    background: #ffffff;
 
     color: #333;
 
-    font-size: 13px;
-
-    outline: none;
-
     transition:
-        border-color .2s ease,
-        box-shadow .2s ease;
+        border 0.2s ease,
+        box-shadow 0.2s ease;
 
 }
 
 
-.fechas-periodo input[type="date"]:focus {
+.filtro-ventas input[type="date"]:focus {
+
+    outline: none;
 
     border-color: #2ecc71;
 
     box-shadow:
-        0 0 0 3px rgba(46, 204, 113, .12);
+        0 0 0 3px rgba(46, 204, 113, 0.12);
 
 }
 
+
+/* =========================================================
+   FLECHA ENTRE FECHAS
+========================================================= */
 
 .separador-fechas {
 
@@ -220,14 +375,14 @@
 
     font-size: 16px;
 
-    font-weight: 600;
+    font-weight: bold;
 
 }
 
 
-/* ===================================
+/* =========================================================
    BOTÓN CONSULTAR
-=================================== */
+========================================================= */
 
 #btn-consultar-ventas {
 
@@ -235,25 +390,26 @@
 
     margin-top: 2px;
 
-    padding: 9px 12px;
-
-    border: none;
-
-    border-radius: 8px;
+    padding: 10px 14px;
 
     background: #198754;
 
     color: white;
 
-    font-size: 14px;
+    border: none;
+
+    border-radius: 8px;
 
     font-weight: 600;
+
+    font-size: 14px;
 
     cursor: pointer;
 
     transition:
-        background .2s ease,
-        transform .15s ease;
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 
 }
 
@@ -262,37 +418,101 @@
 
     background: #157347;
 
-}
+    transform: translateY(-1px);
 
-
-#btn-consultar-ventas:active {
-
-    transform: scale(.98);
+    box-shadow:
+        0 4px 10px rgba(25, 135, 84, 0.25);
 
 }
 
 
-/* ===================================
+/* =========================================================
    RESULTADO DEL PERÍODO
-=================================== */
+========================================================= */
 
 #total-vendido-periodo {
 
-    margin: 13px 0 0;
+    margin: 14px 0 0;
+
+    text-align: center;
+
+    font-size: 28px;
 
     color: #198754;
 
-    font-size: 26px;
-
     font-weight: 700;
 
-    letter-spacing: -0.5px;
+    line-height: 1.2;
 
 }
 
-/* ===================================
+
+/* =========================================================
+   TEXTO DE AYUDA DEL PERÍODO
+========================================================= */
+
+.venta-card:nth-child(6)::after {
+
+    content: "";
+
+}
+
+
+/* =========================================================
+   ICONOS
+========================================================= */
+
+.icono-card {
+
+    font-size: 34px;
+
+    display: inline-block;
+
+    margin-right: 9px;
+
+    vertical-align: middle;
+
+}
+
+
+/*
+   Como actualmente los iconos están directamente
+   dentro de los h3 como emojis, aumentamos también
+   visualmente el encabezado.
+*/
+
+.venta-card h3 {
+
+    font-size: 17px;
+
+}
+
+
+/* =========================================================
    HISTORIAL DE VENTAS
-=================================== */
+========================================================= */
+
+.historial-container {
+
+    max-height: 400px;
+
+    overflow-y: auto;
+
+    overflow-x: hidden;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.07);
+
+    border: 1px solid #eeeeee;
+
+}
+
+
+/* =========================================================
+   TABLA
+========================================================= */
 
 .tabla-ventas {
 
@@ -307,57 +527,17 @@
     margin-top: 0;
 
 }
+
+
+/* =========================================================
+   ENCABEZADO
+========================================================= */
+
 .tabla-ventas thead {
 
-    background: #222;
+    background: #202020;
 
     color: white;
-
-}
-
-.tabla-ventas th {
-
-    padding: 16px;
-
-    text-align: left;
-
-}
-
-.tabla-ventas td {
-
-    padding: 14px 16px;
-
-    border-bottom: 1px solid #eee;
-
-}
-
-.tabla-ventas tbody tr:hover {
-
-    background: #f8f8f8;
-
-}
-
-
-/* ===================================
-   CONTENEDOR DEL HISTORIAL
-=================================== */
-.historial-container {
-
-    max-height: 400px;
-
-    overflow-y: auto;
-
-    overflow-x: hidden;
-
-    border-radius: 12px;
-
-    box-shadow: 0 4px 10px rgba(0,0,0,.08);
-
-}
-
-.tabla-ventas{
-
-    margin-top: 0;
 
 }
 
@@ -368,7 +548,7 @@
 
     top: 0;
 
-    background: #222 !important;
+    background: #202020 !important;
 
     color: white !important;
 
@@ -376,25 +556,49 @@
 
 }
 
-.tabla-ventas thead tr:hover {
 
-    background: #222 !important;
+/* =========================================================
+   CELDAS
+========================================================= */
+
+.tabla-ventas th {
+
+    padding: 15px;
+
+    text-align: left;
+
+    font-size: 14px;
 
 }
 
-.tabla-ventas thead th:hover {
 
-    background: #222 !important;
+.tabla-ventas td {
 
-    color: white !important;
+    padding: 13px 15px;
+
+    border-bottom: 1px solid #eeeeee;
+
+    font-size: 14px;
 
 }
 
-/* ===================================
+
+/* =========================================================
+   HOVER TABLA
+========================================================= */
+
+.tabla-ventas tbody tr:hover {
+
+    background: #f8faf9;
+
+}
+
+
+/* =========================================================
    BOTÓN VER TICKET
-=================================== */
+========================================================= */
 
-.btn-ver-ticket{
+.btn-ver-ticket {
 
     display: inline-block;
 
@@ -404,29 +608,31 @@
 
     text-decoration: none;
 
-    padding: 8px 14px;
+    padding: 7px 12px;
 
-    border-radius: 8px;
+    border-radius: 7px;
 
-    font-size: 14px;
+    font-size: 13px;
 
     font-weight: 600;
 
-    transition: .2s;
+    transition: 0.2s;
 
 }
 
-.btn-ver-ticket:hover{
+
+.btn-ver-ticket:hover {
 
     background: #2980b9;
 
 }
 
-/* ===================================
-   ACCIONES TICKETS
-=================================== */
 
-.acciones-ticket{
+/* =========================================================
+   ACCIONES TICKETS
+========================================================= */
+
+.acciones-ticket {
 
     display: flex;
 
@@ -434,11 +640,16 @@
 
     align-items: center;
 
-    gap: 10px;
+    gap: 8px;
 
 }
 
-.btn-eliminar-ticket{
+
+/* =========================================================
+   BOTÓN ELIMINAR
+========================================================= */
+
+.btn-eliminar-ticket {
 
     border: none;
 
@@ -446,112 +657,122 @@
 
     color: white;
 
-    border-radius: 8px;
+    border-radius: 7px;
 
-    padding: 8px 12px;
+    padding: 7px 10px;
 
     cursor: pointer;
 
-    font-size: 14px;
+    font-size: 13px;
 
-    transition: .2s;
+    transition: 0.2s;
 
 }
 
-.btn-eliminar-ticket:hover{
+
+.btn-eliminar-ticket:hover {
 
     background: #c0392b;
 
 }
 
-/* ===================================
-   VENTAS POR PERÍODO
-=================================== */
 
-.venta-card:has(#fecha-desde) {
-    padding: 20px;
-}
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
-.venta-card:has(#fecha-desde) h3 {
-    margin-bottom: 16px;
-}
+@media (max-width: 1100px) {
 
-.filtro-ventas {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
+    .ventas-dashboard {
 
-.filtro-ventas label {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #555;
-}
+        grid-template-columns: repeat(2, 1fr);
 
-.filtro-ventas input[type="date"] {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 8px 10px;
-    border: 1px solid #ddd;
-    border-radius: 7px;
-    font-size: 14px;
-    background: #fff;
-}
+        grid-template-rows: auto;
 
-#btn-consultar-ventas {
-    width: 100%;
-    margin-top: 4px;
-    padding: 9px 12px;
-    background: #198754;
-    color: white;
-    border: none;
-    border-radius: 7px;
-    font-weight: 600;
-    cursor: pointer;
-}
+    }
 
-#btn-consultar-ventas:hover {
-    background: #157347;
-}
 
-#total-vendido-periodo {
-    font-size: 25px;
-    margin: 16px 0 0;
-    color: #198754;
+    .venta-card:nth-child(1),
+    .venta-card:nth-child(2),
+    .venta-card:nth-child(3),
+    .venta-card:nth-child(4),
+    .venta-card:nth-child(5),
+    .venta-card:nth-child(6) {
+
+        grid-column: auto;
+
+        grid-row: auto;
+
+    }
+
+
+    .venta-card:nth-child(5) {
+
+        grid-column: span 2;
+
+    }
+
 }
 
 
-/* ===================================
-   FECHAS DEL PERÍODO
-=================================== */
+@media (max-width: 700px) {
 
-.fechas-periodo {
-    display: flex;
-    align-items: flex-end;
-    gap: 8px;
+    .ventas-dashboard {
+
+        grid-template-columns: 1fr;
+
+        grid-template-rows: auto;
+
+        gap: 14px;
+
+    }
+
+
+    .venta-card:nth-child(1),
+    .venta-card:nth-child(2),
+    .venta-card:nth-child(3),
+    .venta-card:nth-child(4),
+    .venta-card:nth-child(5),
+    .venta-card:nth-child(6) {
+
+        grid-column: 1;
+
+        grid-row: auto;
+
+    }
+
+
+    .venta-card:nth-child(5) {
+
+        grid-column: 1;
+
+    }
+
+
+    .fechas-periodo {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+
+    .separador-fechas {
+
+        display: none;
+
+    }
+
 }
 
-.fechas-periodo label {
-    flex: 1;
-}
 
-.separador-fechas {
-    padding-bottom: 9px;
-    color: #888;
-    font-weight: bold;
-}
+/* =========================================================
+   ESPACIADO HISTORIAL
+========================================================= */
 
-#cantidad-ventas-periodo {
+.historial-container + * {
 
-    margin: 5px 0 0;
-
-    color: #777;
-
-    font-size: 13px;
-
-    font-weight: 600;
+    margin-top: 20px;
 
 }

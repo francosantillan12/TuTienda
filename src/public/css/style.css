@@ -462,122 +462,343 @@
   margin-right: 10px;
 }
 
+/************** DASHBOARD *************/
 
-/**************NUEVO*************/
+/* =========================================================
+   TÍTULO PRINCIPAL
+========================================================= */
 
-/* ==========================================
-   DASHBOARD
-========================================== */
+.dashboard-titulo {
 
-.dashboard-titulo{
-  text-align:center;
-  font-size:48px;
-  margin-top:20px;
-  margin-bottom:5px;
-}
+  text-align: center;
 
-.dashboard-subtitulo{
-  text-align:center;
-  font-size:24px;
-  color:#666;
-  margin-bottom:10px;
-}
+  font-size: 46px;
 
-.dashboard-bienvenida{
-  text-align:center;
-  margin-bottom:40px;
-  font-size:18px;
-}
+  margin: 10px 0 4px;
 
-.dashboard{
-
-  display:grid;
-
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-
-  gap:25px;
-
-  margin-bottom:40px;
+  line-height: 1.1;
 
 }
 
-.dashboard-card{
 
-  background:#fff;
+.dashboard-subtitulo {
 
-  border:1px solid #ddd;
+  text-align: center;
 
-  border-radius:12px;
+  font-size: 22px;
 
-  padding:25px;
+  color: #666;
 
-  text-align:center;
-
-  box-shadow:0 5px 15px rgba(0,0,0,.08);
-
-  transition:.25s;
+  margin: 0 0 8px;
 
 }
 
-.dashboard-card:hover{
 
-  transform:translateY(-5px);
+.dashboard-bienvenida {
 
-  box-shadow:0 12px 25px rgba(0,0,0,.12);
+  text-align: center;
 
-}
+  margin: 0 0 25px;
 
-.dashboard-icono{
+  font-size: 16px;
 
-  font-size:48px;
-
-  margin-bottom:15px;
+  color: #333;
 
 }
 
-.dashboard-card h3{
 
-  margin-top:0;
+/* =========================================================
+   TARJETAS PRINCIPALES
+========================================================= */
 
-}
+.dashboard {
 
-.dashboard-card p{
+  display: grid;
 
-  color:#666;
+  grid-template-columns: repeat(4, 1fr);
 
-  min-height:60px;
+  gap: 20px;
 
-}
-
-.dashboard-card a{
-
-  display:inline-block;
-
-  padding:10px 20px;
-
-  background:#222;
-
-  color:white;
-
-  text-decoration:none;
-
-  border-radius:6px;
-
-  transition:.2s;
+  margin-bottom: 25px;
 
 }
 
-.dashboard-card a:hover{
 
-  background:#444;
+.dashboard-card {
+
+  background: #fff;
+
+  border: 1px solid #e2e2e2;
+
+  border-radius: 14px;
+
+  padding: 20px 18px;
+
+  min-height: 245px;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, .07);
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
 
 }
 
-.estado-sistema{
 
-  margin-top:25px;
+.dashboard-card:hover {
 
-  line-height:2;
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, .11);
+
+}
+
+
+/* =========================================================
+   ICONOS
+========================================================= */
+
+.dashboard-icono {
+
+  font-size: 48px;
+
+  line-height: 1;
+
+  margin-bottom: 8px;
+
+}
+
+
+/* =========================================================
+   TÍTULOS DE TARJETAS
+========================================================= */
+
+.dashboard-card h3 {
+
+  margin: 0;
+
+  font-size: 20px;
+
+  color: #222;
+
+}
+
+
+/* =========================================================
+   DESCRIPCIÓN
+========================================================= */
+
+.dashboard-card p {
+
+  color: #666;
+
+  font-size: 15px;
+
+  line-height: 1.4;
+
+  margin: 8px 0;
+
+  min-height: 42px;
+
+  max-width: 240px;
+
+}
+
+
+/* =========================================================
+   BOTONES
+========================================================= */
+
+.dashboard-card a {
+
+  display: inline-block;
+
+  padding: 9px 18px;
+
+  background: #222;
+
+  color: white;
+
+  text-decoration: none;
+
+  border-radius: 7px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  transition:
+    background .2s ease,
+    transform .2s ease;
+
+}
+
+
+.dashboard-card a:hover {
+
+  background: #198754;
+
+  transform: translateY(-1px);
+
+}
+
+
+/* =========================================================
+   SEPARADOR
+========================================================= */
+
+.dashboard + hr {
+
+  margin: 5px 0 18px;
+
+  border: none;
+
+  border-top: 1px solid #e5e5e5;
+
+}
+
+
+/* =========================================================
+   ESTADO DEL SISTEMA
+========================================================= */
+
+.dashboard + hr + h2 {
+
+  margin: 0 0 12px;
+
+  font-size: 21px;
+
+  color: #222;
+
+}
+
+
+/* =========================================================
+   INDICADORES DE ESTADO
+========================================================= */
+
+.estado-sistema {
+
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 15px;
+
+  margin: 0;
+
+  padding: 0;
+
+}
+
+
+.estado-sistema li {
+
+  background: #f8faf9;
+
+  border: 1px solid #e5e9e6;
+
+  border-left: 4px solid #2ecc71;
+
+  border-radius: 10px;
+
+  padding: 12px 15px;
+
+  box-sizing: border-box;
+
+  font-size: 14px;
+
+  color: #444;
+
+  display: flex;
+
+  align-items: center;
+
+  min-height: 48px;
+
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, .04);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+
+}
+
+
+.estado-sistema li:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 5px 12px rgba(0, 0, 0, .07);
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .dashboard {
+
+    grid-template-columns: repeat(2, 1fr);
+
+  }
+
+  .estado-sistema {
+
+    grid-template-columns: 1fr;
+
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .dashboard {
+
+    grid-template-columns: 1fr;
+
+    gap: 14px;
+
+  }
+
+  .dashboard-card {
+
+    min-height: 220px;
+
+  }
+
+  .dashboard-titulo {
+
+    font-size: 38px;
+
+  }
+
+  .dashboard-subtitulo {
+
+    font-size: 19px;
+
+  }
+
 }
 
 
