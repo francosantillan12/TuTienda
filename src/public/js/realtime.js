@@ -127,8 +127,8 @@ function renderizarProductos(productos) {
     const vencimiento =
       p.fechaVencimiento
         ? new Date(
-            p.fechaVencimiento
-          ).toLocaleDateString("es-AR")
+          p.fechaVencimiento
+        ).toLocaleDateString("es-AR")
         : "-";
 
 
